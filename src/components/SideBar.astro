@@ -1,6 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import profileImg from "../assets/profile.webp";
 import SideBarFooter from "./SideBarFooter.astro";
-import {Image} from "astro:assets";
 import SideBarMenu from "./SideBarMenu.astro";
 const {sideBarActiveItemID} = Astro.props;
 ---
@@ -14,7 +15,7 @@ const {sideBarActiveItemID} = Astro.props;
                      style="display: flex; justify-content: center; align-items: center;">
                     <div class="w-[8.5rem]">
                         <Image class="mask mask-circle" format="webp" width={300} height={300}
-                               src="/IMG-20230508-WA0001ww.webp"
+                               src={profileImg}
                                alt="Profile image"/>
                     </div>
                 </div>
