@@ -76,7 +76,7 @@ Collaborate in an Agile environment, participate in code reviews, and continuous
       },
       {
         title: 'Frontend Developer',
-        subtitle: 'Nov 2022 – Aug 2023 | ELAB (A.S. Watson Group)',
+        subtitle: 'Sep 2022 – Aug 2023 | ELAB (A.S. Watson Group)',
         description: `Delivered Angular components for a multi-brand loyalty platform across web and mobile.
 Integrated REST APIs, designed reactive forms, and ensured accessibility and responsive design.
 Worked closely with UI/UX teams and followed Agile delivery rhythms including grooming and retrospectives.`
