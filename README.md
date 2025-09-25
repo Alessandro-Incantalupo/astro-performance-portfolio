@@ -83,11 +83,11 @@ The theme system demonstrates advanced frontend skills:
 ```typescript
 // Dynamic theme switching with localStorage persistence
 function updateTheme(doc: Document, newTheme: string) {
-  const htmlElement = doc.querySelector("html");
+  const htmlElement = doc.querySelector('html');
   if (htmlElement) {
-    htmlElement.setAttribute("data-theme", newTheme);
+    htmlElement.setAttribute('data-theme', newTheme);
   }
-  window.localStorage.setItem("data-theme", newTheme);
+  window.localStorage.setItem('data-theme', newTheme);
 }
 ```
 
@@ -115,7 +115,7 @@ export const cv_texts = {
   },
   skills: {
     /* Technical competencies */
-  },
+  }
 };
 ```
 

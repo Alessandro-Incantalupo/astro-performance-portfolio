@@ -1,15 +1,15 @@
 ---
-import {SITE_CREATOR} from "../config";
+import { SITE_CREATOR } from '../config';
 const today = new Date();
-const {gitHubUrl} = Astro.props;
+const { gitHubUrl } = Astro.props;
 ---
 
 <footer class="footer footer-center block mb-5 pt-10s">
-    <div class="pb-2">
-        &copy; {today.getFullYear()} {SITE_CREATOR}
-    </div>
-    <div class="inline opacity-75">
-        Developed by <a href={gitHubUrl} target="_blank" class="font-bold">{SITE_CREATOR}</a>
-    </div>
-
+  <div class="pb-2">
+    &copy; {today.getFullYear()}
+    {SITE_CREATOR}
+  </div>
+  <div class="inline opacity-75">
+    Developed by <a href={gitHubUrl} target="_blank" class="font-bold">{SITE_CREATOR}</a>
+  </div>
 </footer>

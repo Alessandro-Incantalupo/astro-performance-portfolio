@@ -1,6 +1,6 @@
 ---
-import { home_texts, SITE_CREATOR } from "../config";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import { home_texts, SITE_CREATOR } from '../config';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout sideBarActiveItemID="home">
@@ -14,9 +14,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </span>
     </div>
     <div class="mt-8">
-      <a class="btn" href="https://www.linkedin.com/in/alessandro-incantalupo" target="_blank">{home_texts.connect}</a>
-      <a href="mailto:alessandro.incantalupo@gmail.com" referrerpolicy="no-referrer-when-downgrade"
-         target="_blank" class="btn btn-outline ml-5">
+      <a class="btn" href="https://www.linkedin.com/in/alessandro-incantalupo" target="_blank"
+        >{home_texts.connect}</a
+      >
+      <a
+        href="mailto:alessandro.incantalupo@gmail.com"
+        referrerpolicy="no-referrer-when-downgrade"
+        target="_blank"
+        class="btn btn-outline ml-5"
+      >
         {home_texts.message}
       </a>
     </div>

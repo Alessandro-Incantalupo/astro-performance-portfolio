@@ -1,8 +1,8 @@
 ---
 // import {changeLanguage} from "i18next";
-import TimeLineElement from "../components/CV/TimeLine.astro";
-import { cv_texts as texts } from "../config";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import TimeLineElement from '../components/CV/TimeLine.astro';
+import { cv_texts as texts } from '../config';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
 // changeLanguage("en");
 ---
@@ -18,46 +18,44 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="text-3xl w-full font-bold">{texts.education.title}</div>
   </div>
   <div class="time-line-container grid gap-4 mb-10">
-    {texts.education.items.map(item => (
-      <TimeLineElement title={item.title} subtitle={item.subtitle} />
-    ))}
+    {
+      texts.education.items.map(item => (
+        <TimeLineElement title={item.title} subtitle={item.subtitle} />
+      ))
+    }
   </div>
 
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">{texts.experience.title}</div>
   </div>
   <div class="time-line-container mb-10">
-    {texts.experience.items.map(item => (
-      <TimeLineElement title={item.title} subtitle={item.subtitle}>
-        {item.description}
-      </TimeLineElement>
-    ))}
+    {
+      texts.experience.items.map(item => (
+        <TimeLineElement title={item.title} subtitle={item.subtitle}>
+          {item.description}
+        </TimeLineElement>
+      ))
+    }
   </div>
 
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">{texts.certifications.title}</div>
   </div>
   <ul class="list-disc mx-6 mb-10 grid gap-2">
-    {texts.certifications.items.map(item => (
-      <li>{item}</li>
-    ))}
+    {texts.certifications.items.map(item => <li>{item}</li>)}
   </ul>
 
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">{texts.skills.title}</div>
   </div>
   <ul class="list-disc md:columns-5 columns-2 mx-6 mb-10">
-    {texts.skills.items.map(item => (
-      <li>{item}</li>
-    ))}
+    {texts.skills.items.map(item => <li>{item}</li>)}
   </ul>
 
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">{texts.learning.title}</div>
   </div>
   <ul class="list-disc md:columns-2 columns-1 mx-6 mb-10">
-    {texts.learning.items.map(item => (
-      <li>{item}</li>
-    ))}
+    {texts.learning.items.map(item => <li>{item}</li>)}
   </ul>
 </BaseLayout>

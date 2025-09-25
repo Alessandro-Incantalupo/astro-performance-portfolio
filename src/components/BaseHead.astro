@@ -6,12 +6,7 @@ export interface Props {
   ogType?: string;
 }
 
-const {
-  title,
-  description,
-  image = "/social_img.webp",
-  ogType = "website",
-} = Astro.props;
+const { title, description, image = '/social_img.webp', ogType = 'website' } = Astro.props;
 ---
 
 <head>
@@ -54,33 +49,29 @@ const {
 
   <script>
     function setTheme(doc: Document) {
-      const theme_selectors = doc.querySelectorAll(
-        "#theme-selector div[data-theme]"
-      );
-      const theme = window.localStorage.getItem("data-theme");
+      const theme_selectors = doc.querySelectorAll('#theme-selector div[data-theme]');
+      const theme = window.localStorage.getItem('data-theme');
 
       if (theme) {
         updateTheme(doc, theme);
       } else {
-        updateTheme(doc, "lofi");
+        updateTheme(doc, 'lofi');
       }
     }
 
     function updateTheme(doc: Document, newTheme: string) {
-      const htmlElement = doc.querySelector("html");
+      const htmlElement = doc.querySelector('html');
       if (htmlElement) {
-        htmlElement.setAttribute("data-theme", newTheme);
+        htmlElement.setAttribute('data-theme', newTheme);
       }
-      window.localStorage.setItem("data-theme", newTheme);
+      window.localStorage.setItem('data-theme', newTheme);
     }
 
     function changeThemeBehavior(doc: Document) {
-      const theme_selectors = doc.querySelectorAll(
-        "#theme-selector div[data-theme]"
-      );
+      const theme_selectors = doc.querySelectorAll('#theme-selector div[data-theme]');
       theme_selectors.forEach((selector: Element) => {
-        selector.addEventListener("click", () => {
-          updateTheme(doc, selector.getAttribute("data-theme") as string);
+        selector.addEventListener('click', () => {
+          updateTheme(doc, selector.getAttribute('data-theme') as string);
         });
       });
     }
@@ -88,12 +79,10 @@ const {
     setTheme(document);
     changeThemeBehavior(document);
 
-    document.addEventListener("astro:after-swap", () => {
+    document.addEventListener('astro:after-swap', () => {
       setTheme(document);
     });
 
-    document.addEventListener("astro:after-swap", () =>
-      changeThemeBehavior(document)
-    );
+    document.addEventListener('astro:after-swap', () => changeThemeBehavior(document));
   </script>
 </head>
