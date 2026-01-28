@@ -4,6 +4,7 @@ import { ClientRouter } from 'astro:transitions';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import SideBar from '../components/SideBar.astro';
+import '../styles/global.css';
 
 import BaseHead from '../components/BaseHead.astro';
 import { GITHUB_URL, SITE_CREATOR, TRANSITION_API } from '../consts';
@@ -29,8 +30,8 @@ const {
       <div
         class="drawer-content bg-base-100 flex flex-col justify-between align-middle min-h-screen"
       >
-        <div class="md:flex md:flex-col md:items-center justify-between flex-grow w-full">
-          <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw] flex-grow w-full">
+        <div class="md:flex md:flex-col md:items-center justify-between grow w-full">
+          <main class="p-6 pt-10 lg:max-w-225 max-w-[100vw] grow w-full">
             <slot />
           </main>
         </div>

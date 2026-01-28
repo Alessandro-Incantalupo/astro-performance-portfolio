@@ -4,9 +4,9 @@ import { THEMES } from '../consts';
 
 <div
   title="Change Theme"
-  class="dropdown dropdown-end flex justify-end sticky top-0 z-50 theme-selector-comp"
+  class="dropdown dropdown-end flex justify-end sticky top-0 z-50 theme-selector-comp group"
 >
-  <div tabindex="0" class="btn gap-1 normal-case btn-ghost group">
+  <div tabindex="0" class="btn gap-1 normal-case btn-ghost">
     <svg
       width="20"
       height="20"
@@ -26,7 +26,7 @@ import { THEMES } from '../consts';
     <svg
       width="12px"
       height="12px"
-      class="ml-1 hidden h-5 w-5 fill-current opacity-60 sm:inline-block group-focus:rotate-180 transition-transform duration-200 ease-in-out"
+      class="ml-1 hidden h-5 w-5 fill-current opacity-60 sm:inline-block group-focus-within:rotate-180 transition-transform duration-200 ease-in-out"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 2048 2048"
     >
@@ -40,9 +40,9 @@ import { THEMES } from '../consts';
       {
         THEMES.map(theme => (
           <div
-            class="outline-base-content overflow-hidden rounded-lg outline-2 outline-offset-2 hover:outline"
+            class="overflow-hidden rounded-lg border-2 border-transparent hover:border-base-content/50 transition-colors"
             data-set-theme={theme}
-            data-act-class="outline"
+            data-act-class="!border-base-content"
           >
             <div
               data-theme={theme}
