@@ -33,8 +33,8 @@ const {
           <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw] flex-grow w-full">
             <slot />
           </main>
-          <Footer gitHubUrl={GITHUB_URL} siteCreator={SITE_CREATOR} />
         </div>
+        <Footer gitHubUrl={GITHUB_URL} siteCreator={SITE_CREATOR} />
       </div>
       {includeSidebar && <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
     </div>
