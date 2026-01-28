@@ -1,7 +1,7 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
-export const SITE_TITLE = 'Astro | Personal Portfolio';
+export const SITE_TITLE = 'Alessandro Incantalupo';
 export const SITE_CREATOR = 'Alessandro Incantalupo';
 export const GITHUB_URL = 'https://github.com/Alessandro-Incantalupo';
 export const SITE_DESCRIPTION =
