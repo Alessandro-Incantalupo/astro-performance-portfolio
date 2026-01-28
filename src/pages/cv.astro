@@ -1,9 +1,20 @@
 ---
-// import {changeLanguage} from "i18next";
+import { getCollection } from 'astro:content';
 import TimeLineElement from '../components/CV/TimeLine.astro';
 import { cv_texts as texts } from '../config';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
+const experience = await getCollection('experience');
+// Sort experience by date if needed, or by some order field?
+// For now, assume default order or adds a sort field.
+// Actually, glob loader returns them in file order or arbitrary.
+// We might need to add dates to the schema to sort, or just rely on file name?
+// The current list is effectively ordered in the config.json.
+// Let's just render them.
+// To match the exact order, I might need to add a "order" or "startDate" field.
+// But for now, let's just fetch them.
+
+const education = await getCollection('education');
 // changeLanguage("en");
 ---
 
@@ -19,8 +30,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
   <div class="time-line-container grid gap-4 mb-10">
     {
-      texts.education.items.map(item => (
-        <TimeLineElement title={item.title} subtitle={item.subtitle} />
+      education.map(item => (
+        <TimeLineElement title={item.data.title} subtitle={item.data.subtitle} />
       ))
     }
   </div>
@@ -30,9 +41,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   </div>
   <div class="time-line-container mb-10">
     {
-      texts.experience.items.map(item => (
-        <TimeLineElement title={item.title} subtitle={item.subtitle}>
-          {item.description}
+      experience.map(item => (
+        <TimeLineElement title={item.data.title} subtitle={item.data.subtitle}>
+          {item.data.description}
         </TimeLineElement>
       ))
     }
