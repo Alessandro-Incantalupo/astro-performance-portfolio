@@ -1,61 +1,67 @@
 ---
-// import {changeLanguage} from "i18next";
+import { getCollection } from 'astro:content';
 import TimeLineElement from '../components/CV/TimeLine.astro';
-import { cv_texts as texts } from '../config';
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const experience = await getCollection('experience');
+const education = await getCollection('education');
+const skills = (await getCollection('skills'))[0].data;
+const certifications = (await getCollection('certifications'))[0].data;
+const profile = (await getCollection('profile'))[0].data;
+const learning = (await getCollection('learning'))[0].data;
 
 // changeLanguage("en");
 ---
 
 <BaseLayout title="Resume" sideBarActiveItemID="cv">
   <div class="mb-5">
-    <div class="text-3xl w-full font-bold">{texts.profile.title}</div>
+    <div class="text-3xl w-full font-bold">{profile.title}</div>
   </div>
   <div class="mb-10 text-justify">
-    {texts.profile.description}
+    {profile.description}
   </div>
   <div class="mb-5">
-    <div class="text-3xl w-full font-bold">{texts.education.title}</div>
+    <div class="text-3xl w-full font-bold">Education</div>
   </div>
   <div class="time-line-container grid gap-4 mb-10">
     {
-      texts.education.items.map(item => (
-        <TimeLineElement title={item.title} subtitle={item.subtitle} />
+      education.map(item => (
+        <TimeLineElement title={item.data.title} subtitle={item.data.subtitle} />
       ))
     }
   </div>
 
   <div class="mb-5">
-    <div class="text-3xl w-full font-bold">{texts.experience.title}</div>
+    <div class="text-3xl w-full font-bold">Experience</div>
   </div>
   <div class="time-line-container mb-10">
     {
-      texts.experience.items.map(item => (
-        <TimeLineElement title={item.title} subtitle={item.subtitle}>
-          {item.description}
+      experience.map(item => (
+        <TimeLineElement title={item.data.title} subtitle={item.data.subtitle}>
+          {item.data.description}
         </TimeLineElement>
       ))
     }
   </div>
 
   <div class="mb-5">
-    <div class="text-3xl w-full font-bold">{texts.certifications.title}</div>
+    <div class="text-3xl w-full font-bold">Certifications</div>
   </div>
   <ul class="list-disc mx-6 mb-10 grid gap-2">
-    {texts.certifications.items.map(item => <li>{item}</li>)}
+    {certifications.map(item => <li>{item}</li>)}
   </ul>
 
   <div class="mb-5">
-    <div class="text-3xl w-full font-bold">{texts.skills.title}</div>
+    <div class="text-3xl w-full font-bold">Skills</div>
   </div>
   <ul class="list-disc md:columns-5 columns-2 mx-6 mb-10">
-    {texts.skills.items.map(item => <li>{item}</li>)}
+    {skills.map(item => <li>{item}</li>)}
   </ul>
 
   <div class="mb-5">
-    <div class="text-3xl w-full font-bold">{texts.learning.title}</div>
+    <div class="text-3xl w-full font-bold">Currently Learning</div>
   </div>
   <ul class="list-disc md:columns-2 columns-1 mx-6 mb-10">
-    {texts.learning.items.map(item => <li>{item}</li>)}
+    {learning.map(item => <li>{item}</li>)}
   </ul>
 </BaseLayout>

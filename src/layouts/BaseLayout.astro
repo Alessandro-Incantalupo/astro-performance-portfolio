@@ -1,18 +1,17 @@
 ---
-// import BaseHead from "../components/BaseHead.astro";
-import Header from '../components/Header.astro';
+import { ClientRouter } from 'astro:transitions';
 import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
 import SideBar from '../components/SideBar.astro';
-import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
 
-import { SITE_TITLE, SITE_DESCRIPTION, TRANSITION_API, SITE_CREATOR, GITHUB_URL } from '../config';
 import BaseHead from '../components/BaseHead.astro';
-import ThemeSelector from '../components/ThemeSelector.astro';
+import { GITHUB_URL, SITE_CREATOR, SITE_DESCRIPTION, SITE_TITLE, TRANSITION_API } from '../consts';
 
 const {
   image,
-  title = 'Alessandro Incantalupo',
-  description = "Alessandro Incantalupo's personal portfolio showcasing his skills, experiences, and projects as a Software Engineer at Accenture. Connect with me today!",
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
   includeSidebar = true,
   sideBarActiveItemID,
   ogType
@@ -21,7 +20,7 @@ const {
 
 <html lang="en" class="min-h-screen justify-between">
   <BaseHead title={title} description={description} image={image} , ogType={ogType}>
-    {TRANSITION_API && <ViewTransitions />}
+    {TRANSITION_API && <ClientRouter />}
   </BaseHead>
   <body class="flex flex-col min-h-screen justify-between">
     <Header title={SITE_CREATOR} />
@@ -30,8 +29,8 @@ const {
       <div
         class="drawer-content bg-base-100 flex flex-col justify-between align-middle min-h-screen"
       >
-        <div class="md:flex md:justify-center">
-          <main class="p-6 pt-10 lg:max-w-[900px] max-w-[100vw] flex-grow">
+        <div class="md:flex md:flex-col md:items-center justify-between grow w-full">
+          <main class="p-6 pt-10 lg:max-w-225 max-w-[100vw] grow w-full">
             <slot />
           </main>
         </div>

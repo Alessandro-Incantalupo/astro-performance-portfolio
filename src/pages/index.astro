@@ -1,29 +1,30 @@
 ---
-import { home_texts, SITE_CREATOR } from '../config';
+import { getCollection } from 'astro:content';
+import { SITE_CREATOR } from '../consts';
 import BaseLayout from '../layouts/BaseLayout.astro';
+const home = (await getCollection('home'))[0].data;
 ---
 
 <BaseLayout sideBarActiveItemID="home">
   <div class="pb-12 mt-5">
-    <div class="text-xl py-1">{home_texts.greeting}</div>
-    <div class="text-5xl font-bold">{home_texts.intro} {SITE_CREATOR}</div>
-    <div class="text-3xl py-3 font-bold">{home_texts.role}</div>
+    <div class="text-xl py-1">{home.greeting}</div>
+    <div class="text-5xl font-bold">{home.intro} {SITE_CREATOR}</div>
+    <div class="text-3xl py-3 font-bold">{home.role}</div>
     <div class="py-2">
       <span class="text-lg">
-        {home_texts.description}
+        {home.description}
       </span>
     </div>
     <div class="mt-8">
-      <a class="btn" href="https://www.linkedin.com/in/alessandro-incantalupo" target="_blank"
-        >{home_texts.connect}</a
-      >
+      <a class="btn" href="https://www.linkedin.com/in/alessandro-incantalupo" target="_blank">
+        {home.connect}
+      </a>
       <a
         href="mailto:alessandro.incantalupo@gmail.com"
-        referrerpolicy="no-referrer-when-downgrade"
         target="_blank"
         class="btn btn-outline ml-5"
       >
-        {home_texts.message}
+        {home.message}
       </a>
     </div>
   </div>

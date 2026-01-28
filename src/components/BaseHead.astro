@@ -50,7 +50,6 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
 
   <script>
     function setTheme(doc: Document) {
-      const theme_selectors = doc.querySelectorAll('#theme-selector div[data-theme]');
       const theme = window.localStorage.getItem('data-theme');
 
       if (theme) {
@@ -69,7 +68,7 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
     }
 
     function changeThemeBehavior(doc: Document) {
-      const theme_selectors = doc.querySelectorAll('#theme-selector div[data-theme]');
+      const theme_selectors = doc.querySelectorAll('.theme-selector-comp div[data-theme]');
       theme_selectors.forEach((selector: Element) => {
         selector.addEventListener('click', () => {
           updateTheme(doc, selector.getAttribute('data-theme') as string);
