@@ -55,7 +55,7 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
       if (theme) {
         updateTheme(doc, theme);
       } else {
-        updateTheme(doc, 'lofi');
+        updateTheme(doc, 'forest');
       }
     }
 
@@ -77,7 +77,12 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
     }
 
     setTheme(document);
-    changeThemeBehavior(document);
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => changeThemeBehavior(document));
+    } else {
+      changeThemeBehavior(document);
+    }
 
     document.addEventListener('astro:before-swap', ev => {
       setTheme(ev.newDocument);
