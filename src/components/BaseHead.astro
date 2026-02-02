@@ -48,57 +48,94 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
   <meta property="twitter:description" content={description} />
   <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
-  <script is:inline>
+  <script is:inline data-astro-rerun>
     // ☝️ This script is inline to avoid FOUC (Flash of Unstyled Content).
-    // It runs immediately when the HTML is parsed, setting the theme before the body is rendered.
-
-    function setTheme(doc) {
-      const theme = window.localStorage.getItem('data-theme');
-
-      if (theme) {
-        updateTheme(doc, theme);
-      } else {
-        updateTheme(doc, 'forest'); // Default theme
+    // The `data-astro-rerun` attribute ensures it runs on every page transition.
+    (function () {
+      function getTheme() {
+        return localStorage.getItem('data-theme') || 'forest';
       }
-    }
 
-    function updateTheme(doc, newTheme) {
-      const htmlElement = doc.querySelector('html');
-      if (htmlElement) {
-        htmlElement.setAttribute('data-theme', newTheme);
+      function saveTheme(theme) {
+        localStorage.setItem('data-theme', theme);
       }
-      window.localStorage.setItem('data-theme', newTheme);
-    }
 
-    function changeThemeBehavior(doc) {
-      const theme_selectors = doc.querySelectorAll('.theme-selector-comp div[data-theme]');
-      theme_selectors.forEach(selector => {
-        selector.addEventListener('click', () => {
-          updateTheme(doc, selector.getAttribute('data-theme'));
+      function applyTheme(doc, theme) {
+        if (theme) {
+          doc.documentElement.setAttribute('data-theme', theme);
+        }
+      }
+
+      function setTheme(doc) {
+        const theme = getTheme();
+        applyTheme(doc, theme);
+      }
+
+      // Expose debug tool to window
+      window.getThemeDebug = () => {
+        return {
+          localStorage: getTheme(),
+          htmlAttribute: document.documentElement.getAttribute('data-theme'),
+          isMatch: getTheme() === document.documentElement.getAttribute('data-theme')
+        };
+      };
+
+      // 1. Always set the theme immediately when the script runs (initial load & transitions)
+      setTheme(document);
+
+      // 2. Event Listeners Setup (Run once per session ideally, but we check flag)
+      if (window.__THEME_INIT__) {
+        return; // Listeners already attached, we just needed to run setTheme above.
+      }
+      window.__THEME_INIT__ = true;
+
+      function changeThemeBehavior(doc) {
+        const theme_selectors = doc.querySelectorAll('.theme-selector-comp div[data-theme]');
+        theme_selectors.forEach(selector => {
+          selector.addEventListener('click', () => {
+            const newTheme = selector.getAttribute('data-theme');
+            applyTheme(doc, newTheme);
+            saveTheme(newTheme);
+          });
         });
+      }
+
+      // Attach listeners on load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => changeThemeBehavior(document));
+      } else {
+        changeThemeBehavior(document);
+      }
+
+      // 3. Handle View Transitions (Client Router)
+      document.addEventListener('astro:before-swap', ev => {
+        // CRITICAL: Apply theme to the *new* document structure before it is swapped in.
+        // This prevents the "Flash of Default/Wrong Theme" on standard navigation.
+        setTheme(ev.newDocument);
       });
-    }
 
-    // 1. Set the theme immediately on the current document to prevent flash on load.
-    setTheme(document);
+      document.addEventListener('astro:after-swap', () => {
+        // Re-apply theme to ensure it persists in the active DOM.
+        setTheme(document);
+        // Re-attach listeners to new DOM elements
+        changeThemeBehavior(document);
+      });
 
-    // 2. We need to wait for DOMContentLoaded because `is:inline` scripts run *before* the body exists.
-    // If we tried to attach listeners immediately, the buttons wouldn't be there yet.
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => changeThemeBehavior(document));
-    } else {
-      changeThemeBehavior(document);
-    }
+      // 4. Handle BFCache (History Navigation) using pageshow
+      // This event fires when a page is restored from the back-forward cache.
+      window.addEventListener('pageshow', event => {
+        if (event.persisted) {
+          // Page was restored from cache, force theme re-application immediately.
+          setTheme(document);
+        }
+      });
 
-    // 3. Handle View Transitions (Client Router)
-    // When swapping pages, Astro fetches the new page's HTML. This new HTML doesn't know about the
-    // client-side theme preference. We intercept the swap and apply the theme to the *new* document
-    // before it gets swapped in. This prevents the "white flash" during navigation.
-    document.addEventListener('astro:before-swap', ev => {
-      setTheme(ev.newDocument);
-    });
-
-    // 4. Re-attach event listeners after the swap is complete so the buttons work on the new page.
-    document.addEventListener('astro:after-swap', () => changeThemeBehavior(document));
+      // 5. Ensure theme is consistent on page load
+      document.addEventListener('astro:page-load', () => {
+        setTheme(document);
+        // Backup: Run again shortly after just in case of race condition with other scripts
+        setTimeout(() => setTheme(document), 50);
+      });
+    })();
   </script>
 </head>
