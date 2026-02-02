@@ -48,11 +48,8 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
   <meta property="twitter:description" content={description} />
   <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
-  <meta name="astro-view-transitions-enabled" content="true" />
-  <meta name="astro-view-transitions-fallback" content="animate" />
-
-  <script>
-    function setTheme(doc: Document) {
+  <script is:inline>
+    function setTheme(doc) {
       const theme = window.localStorage.getItem('data-theme');
 
       if (theme) {
@@ -62,7 +59,7 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
       }
     }
 
-    function updateTheme(doc: Document, newTheme: string) {
+    function updateTheme(doc, newTheme) {
       const htmlElement = doc.querySelector('html');
       if (htmlElement) {
         htmlElement.setAttribute('data-theme', newTheme);
@@ -70,11 +67,11 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
       window.localStorage.setItem('data-theme', newTheme);
     }
 
-    function changeThemeBehavior(doc: Document) {
+    function changeThemeBehavior(doc) {
       const theme_selectors = doc.querySelectorAll('.theme-selector-comp div[data-theme]');
-      theme_selectors.forEach((selector: Element) => {
+      theme_selectors.forEach(selector => {
         selector.addEventListener('click', () => {
-          updateTheme(doc, selector.getAttribute('data-theme') as string);
+          updateTheme(doc, selector.getAttribute('data-theme'));
         });
       });
     }
@@ -82,8 +79,8 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
     setTheme(document);
     changeThemeBehavior(document);
 
-    document.addEventListener('astro:after-swap', () => {
-      setTheme(document);
+    document.addEventListener('astro:before-swap', ev => {
+      setTheme(ev.newDocument);
     });
 
     document.addEventListener('astro:after-swap', () => changeThemeBehavior(document));
