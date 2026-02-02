@@ -19,11 +19,7 @@ const home = (await getCollection('home'))[0].data;
       <a class="btn" href="https://www.linkedin.com/in/alessandro-incantalupo" target="_blank">
         {home.connect}
       </a>
-      <a
-        href="mailto:alessandro.incantalupo@gmail.com"
-        target="_blank"
-        class="btn btn-outline ml-5"
-      >
+      <a href="/contacts" class="btn btn-outline ml-5">
         {home.message}
       </a>
     </div>
