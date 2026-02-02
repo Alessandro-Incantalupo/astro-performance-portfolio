@@ -1,5 +1,13 @@
 {
   "title": "Frontend Developer",
   "subtitle": "Sep 2022 – Aug 2023 | ELAB (A.S. Watson Group)",
-  "description": "Delivered Angular components for a multi-brand loyalty platform across web and mobile.\nIntegrated REST APIs, designed reactive forms, and ensured accessibility and responsive design.\nWorked closely with UI/UX teams and followed Agile delivery rhythms including grooming and retrospectives."
+  "startDate": "2022-09-01",
+  "description": [
+    "Developed 3+ live Angular applications for major retail brands (Marionnaud, ICI Paris, Kruidvat), enhancing engagement on both web and mobile platforms.",
+    "Architected Service-Oriented layers for REST API integration, coupling reactive forms with data-driven UI flows for optimal responsiveness.",
+    "Executed rigorous unit and integration testing protocols, ensuring high system stability and minimizing production regressions.",
+    "Collaborated closely with UI/UX designers to translate design specs into accessible (WCAG compliant) components.",
+    "Active participant in Agile ceremonies (grooming, stand-ups, retrospectives), consistently delivering features with a pragmatic, problem-solving mindset.",
+    "Led code review sessions to enforce component design standards and improve maintainability across the codebase."
+  ]
 }

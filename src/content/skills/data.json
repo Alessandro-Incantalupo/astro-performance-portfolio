@@ -1,13 +1,18 @@
 [
-  "Angular 15–20",
-  "Signals & Signal Store",
+  "Angular",
+  "TypeScript",
   "RxJS",
   "NgRx",
+  "Nx Monorepo",
+  "Solution Architecture",
+  "Micro-frontends",
+  "Performance Optimization",
+  "CI/CD",
+  "Azure DevOps",
+  "Signals",
+  "SignalStore",
+  "Standalone Components",
+  "Zoneless Architecture",
   "TailwindCSS",
-  "REST API Integration",
-  "TypeScript & JavaScript",
-  "Unit & Integration Testing",
-  "HTML5 & CSS3",
-  "Version Control (Git)",
-  "Vue.js (Learning)"
+  "Python"
 ]

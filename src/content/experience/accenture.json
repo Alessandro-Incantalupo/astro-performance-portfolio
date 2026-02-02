@@ -1,5 +1,13 @@
 {
-  "title": "Custom Software Engineering Analyst",
-  "subtitle": "Sep 2023 – Present | Accenture (Remote)",
-  "description": "Contributing to a national-scale Angular 17+ project with a 10-person frontend team for a state-level government platform.\n    Develop and maintain advanced Angular components using standalone APIs, Signal-based state management, and zoneless configurations.\nCollaborate in an Agile environment, participate in code reviews, and continuously sharpen expertise in performance profiling, testing, and enterprise architecture."
+  "title": "Angular Frontend Developer",
+  "subtitle": "Sep 2023 – Oct 2025 | Accenture",
+  "startDate": "2023-09-01",
+  "description": [
+    "Implemented NgRx Signal Store for centralized state management, enabling frontend team to deliver state-related features 60% faster.",
+    "Pioneered Zoneless Angular architecture with Signals, reducing change detection triggers by 90% via fine-grained dependency tracking.",
+    "Established Figma-to-code workflow using TailwindCSS design tokens and PrimeNG, achieving 95% first-delivery acceptance on UI implementations.",
+    "Standardized Git operations and conventional commit practices, virtually eliminating clearable merge conflicts and streamlining code reviews.",
+    "Engineered Azure DevOps CI/CD pipelines enabling daily zero-downtime production releases with automated rollback capabilities.",
+    "Streamlined Backend/Frontend collaboration by defining strict REST API contracts, significantly reducing integration friction and handover delays."
+  ]
 }

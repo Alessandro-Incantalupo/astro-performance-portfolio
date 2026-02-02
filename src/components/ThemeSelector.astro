@@ -50,8 +50,8 @@ import { THEMES } from '../consts';
             >
               <div class="grid grid-cols-5 grid-rows-3">
                 <div class="col-span-5 row-span-3 row-start-1 flex gap-1 py-3 px-4">
-                  <div class="flex-grow text-sm font-bold">{theme}</div>
-                  <div class="flex flex-shrink-0 flex-wrap gap-1">
+                  <div class="grow text-sm font-bold">{theme}</div>
+                  <div class="flex shrink-0 flex-wrap gap-1">
                     <div class="bg-primary w-2 rounded" />
                     <div class="bg-secondary w-2 rounded" />
                     <div class="bg-accent w-2 rounded" />
@@ -85,6 +85,34 @@ import { THEMES } from '../consts';
     themeSelectors.forEach(selector => {
       // Cast to HTMLElement to satisfy TypeScript when accessing .dataset
       const htmlSelector = selector as HTMLElement;
+
+      // Logic to update the visual state of the selected theme
+      const updateVisualState = () => {
+        const theme = localStorage.getItem('data-theme') || 'lofi';
+        const buttons = htmlSelector.querySelectorAll('[data-set-theme]');
+        buttons.forEach((btn) => {
+          const btnEl = btn as HTMLElement;
+          const themeValue = btnEl.getAttribute('data-set-theme');
+          const actClass = btnEl.getAttribute('data-act-class');
+          if (themeValue === theme) {
+            btnEl.classList.add(...(actClass?.split(' ') || []));
+          } else {
+            btnEl.classList.remove(...(actClass?.split(' ') || []));
+          }
+        });
+      };
+      
+      // Update on load
+      updateVisualState();
+
+      // Listen for click to update state immediately
+      const buttons = htmlSelector.querySelectorAll('[data-set-theme]');
+      buttons.forEach(btn => {
+         btn.addEventListener('click', () => {
+             // Small timeout to allow the BaseLayout script to update localStorage
+             setTimeout(updateVisualState, 10);
+         });
+      });
 
       // Since this function might run multiple times (initial load + nav), we check a flag
       // to prevent adding the same event listeners twice (which would be inefficient and buggy).

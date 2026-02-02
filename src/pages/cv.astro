@@ -17,9 +17,27 @@ const learning = (await getCollection('learning'))[0].data;
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">{profile.title}</div>
   </div>
-  <div class="mb-10 text-justify">
+  <div class="mb-10 text-justify whitespace-pre-line">
     {profile.description}
   </div>
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Most Recent Experience</div>
+  </div>
+  <div class="time-line-container mb-10">
+    {
+      experience
+        .sort(
+          (a, b) =>
+            new Date(b.data.startDate ?? 0).getTime() - new Date(a.data.startDate ?? 0).getTime()
+        )
+        .map(item => (
+          <TimeLineElement title={item.data.title} subtitle={item.data.subtitle}>
+            {item.data.description}
+          </TimeLineElement>
+        ))
+    }
+  </div>
+
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">Education</div>
   </div>
@@ -27,19 +45,6 @@ const learning = (await getCollection('learning'))[0].data;
     {
       education.map(item => (
         <TimeLineElement title={item.data.title} subtitle={item.data.subtitle} />
-      ))
-    }
-  </div>
-
-  <div class="mb-5">
-    <div class="text-3xl w-full font-bold">Experience</div>
-  </div>
-  <div class="time-line-container mb-10">
-    {
-      experience.map(item => (
-        <TimeLineElement title={item.data.title} subtitle={item.data.subtitle}>
-          {item.data.description}
-        </TimeLineElement>
       ))
     }
   </div>
