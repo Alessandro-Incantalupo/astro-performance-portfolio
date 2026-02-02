@@ -49,13 +49,16 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
   <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
   <script is:inline>
+    // ☝️ This script is inline to avoid FOUC (Flash of Unstyled Content).
+    // It runs immediately when the HTML is parsed, setting the theme before the body is rendered.
+
     function setTheme(doc) {
       const theme = window.localStorage.getItem('data-theme');
 
       if (theme) {
         updateTheme(doc, theme);
       } else {
-        updateTheme(doc, 'forest');
+        updateTheme(doc, 'forest'); // Default theme
       }
     }
 
@@ -76,18 +79,26 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
       });
     }
 
+    // 1. Set the theme immediately on the current document to prevent flash on load.
     setTheme(document);
 
+    // 2. We need to wait for DOMContentLoaded because `is:inline` scripts run *before* the body exists.
+    // If we tried to attach listeners immediately, the buttons wouldn't be there yet.
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => changeThemeBehavior(document));
     } else {
       changeThemeBehavior(document);
     }
 
+    // 3. Handle View Transitions (Client Router)
+    // When swapping pages, Astro fetches the new page's HTML. This new HTML doesn't know about the
+    // client-side theme preference. We intercept the swap and apply the theme to the *new* document
+    // before it gets swapped in. This prevents the "white flash" during navigation.
     document.addEventListener('astro:before-swap', ev => {
       setTheme(ev.newDocument);
     });
 
+    // 4. Re-attach event listeners after the swap is complete so the buttons work on the new page.
     document.addEventListener('astro:after-swap', () => changeThemeBehavior(document));
   </script>
 </head>
