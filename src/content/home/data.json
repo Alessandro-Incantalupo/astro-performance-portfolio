@@ -1,8 +1,8 @@
 {
   "greeting": "Hello there 👋",
   "intro": "I'm",
-  "role": "Angular Frontend Developer",
-  "description": "I'm a Frontend Developer, specializing in Angular 15–20, micro frontends, and modern web architecture. \nCurrently working on a national-scale enterprise project using the latest Angular features like standalone components, Signals, and zoneless setups.\nIn my spare time, I'm building an Angular Admin Dashboard and exploring new technologies like Astro, TailwindCSS, and Vue.js.\nI'm open to remote contracting roles across Europe, the UK, and beyond—especially those focused on high-impact, long-term digital platforms.",
+  "role": "Senior Angular Developer",
+  "description": "I'm a Senior Angular Developer focused on high-performance enterprise architecture and scalable migrations (Angular 17-21). \nI leverage modern standards like Zoneless, Signals, and Standalone components to build maintainable, future-proof applications.\nBeyond work, I explore static site generation with Astro and build LLM Tooling to optimize developer workflows.\nI am available for remote roles (EU/UK/Global) where I can contribute to technical excellence and efficiency.",
   "connect": "Let's connect!",
   "message": "Send me a message"
 }

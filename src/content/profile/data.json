@@ -1,4 +1,13 @@
 {
   "title": "Profile",
-  "description": "Angular Frontend Developer specializing in modern web development with a focus on speed, scalability, and maintainability. \nI build enterprise-grade applications using Angular 15–20, standalone components, Signal Store, and reactive architecture. \nI'm passionate about clean code, modular design, and continuously upskilling in state-of-the-art web technologies including Vue.js. \nOpen to remote contracting opportunities across Europe, the UK, or globally, with an emphasis on digital engagement and long-term quality."
+  "description": [
+    "How can I be guaranteed to be involved in the most relevant, tip-of-the-spear projects your company is working on?",
+    "Angular developer with 5+ years in software engineering. My current focus and passion is using the newer versions of Angular (17-21) to bring scalable improvements and future-proofing.",
+    "Live projects I've worked on: 8+",
+    "I can hit the ground running.",
+    "I'm comfortable both as an operator—coordinating across Backend, UX, and managers—and as an architect providing infrastructure and architectural direction.",
+    "I've worked in healthcare where accessibility and testing were paramount, fintech where performance and graphic charting were required, e-commerce/retail with SAP Spartacus verticalization where pixel-perfect design was critical, and legal platforms where legacy system migrations required multidisciplinary team effort to modernize existing flows.",
+    "My mantra: \"Maximize job not done\"—making it look like I didn't do much, when actually I ensured communication was on point and asked the right questions upfront to save time and pain later.",
+    "I'm passionate about modern developer tooling and constantly stay updated with the latest trends without getting scammed by hype cycles."
+  ]
 }
