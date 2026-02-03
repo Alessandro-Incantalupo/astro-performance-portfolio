@@ -56,10 +56,6 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
         return localStorage.getItem('data-theme') || 'forest';
       }
 
-      function saveTheme(theme) {
-        localStorage.setItem('data-theme', theme);
-      }
-
       function applyTheme(doc, theme) {
         if (theme) {
           doc.documentElement.setAttribute('data-theme', theme);
@@ -83,31 +79,7 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
       // 1. Always set the theme immediately when the script runs (initial load & transitions)
       setTheme(document);
 
-      // 2. Event Listeners Setup (Run once per session ideally, but we check flag)
-      if (window.__THEME_INIT__) {
-        return; // Listeners already attached, we just needed to run setTheme above.
-      }
-      window.__THEME_INIT__ = true;
-
-      function changeThemeBehavior(doc) {
-        const theme_selectors = doc.querySelectorAll('.theme-selector-comp div[data-theme]');
-        theme_selectors.forEach(selector => {
-          selector.addEventListener('click', () => {
-            const newTheme = selector.getAttribute('data-theme');
-            applyTheme(doc, newTheme);
-            saveTheme(newTheme);
-          });
-        });
-      }
-
-      // Attach listeners on load
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => changeThemeBehavior(document));
-      } else {
-        changeThemeBehavior(document);
-      }
-
-      // 3. Handle View Transitions (Client Router)
+      // 2. Handle View Transitions (Client Router)
       document.addEventListener('astro:before-swap', ev => {
         // CRITICAL: Apply theme to the *new* document structure before it is swapped in.
         // This prevents the "Flash of Default/Wrong Theme" on standard navigation.
@@ -117,24 +89,15 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
       document.addEventListener('astro:after-swap', () => {
         // Re-apply theme to ensure it persists in the active DOM.
         setTheme(document);
-        // Re-attach listeners to new DOM elements
-        changeThemeBehavior(document);
       });
 
-      // 4. Handle BFCache (History Navigation) using pageshow
+      // 3. Handle BFCache (History Navigation) using pageshow
       // This event fires when a page is restored from the back-forward cache.
       window.addEventListener('pageshow', event => {
         if (event.persisted) {
           // Page was restored from cache, force theme re-application immediately.
           setTheme(document);
         }
-      });
-
-      // 5. Ensure theme is consistent on page load
-      document.addEventListener('astro:page-load', () => {
-        setTheme(document);
-        // Backup: Run again shortly after just in case of race condition with other scripts
-        setTimeout(() => setTheme(document), 50);
       });
     })();
   </script>

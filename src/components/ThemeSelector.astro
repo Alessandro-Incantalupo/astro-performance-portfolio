@@ -109,8 +109,13 @@ import { THEMES } from '../consts';
       const buttons = htmlSelector.querySelectorAll('[data-set-theme]');
       buttons.forEach(btn => {
         btn.addEventListener('click', () => {
-          // Small timeout to allow the BaseLayout script to update localStorage
-          setTimeout(updateVisualState, 10);
+          const btnEl = btn as HTMLElement;
+          const newTheme = btnEl.getAttribute('data-set-theme');
+          if (newTheme) {
+            localStorage.setItem('data-theme', newTheme);
+            document.documentElement.setAttribute('data-theme', newTheme);
+            updateVisualState();
+          }
         });
       });
 
