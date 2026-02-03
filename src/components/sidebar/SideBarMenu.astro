@@ -1,5 +1,9 @@
 ---
 import { NAV_ITEMS } from '../../consts';
+// SSR (Server-Side Rendering) Active State
+// We calculate the active class HERE (at build time) for each page.
+// This prevents the "Flash of Unstyled Content" that happens if you use client-side JS.
+// The HTML arrives at the browser with the correct class already applied.
 const { sideBarActiveItemID } = Astro.props;
 ---
 

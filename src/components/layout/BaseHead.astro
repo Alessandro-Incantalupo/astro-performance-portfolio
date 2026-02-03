@@ -48,9 +48,22 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
   <meta property="twitter:description" content={description} />
   <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
+  <!-- 
+    THEME LOGIC EXPLAINED
+    This script is critical for preventing "Flash of Incorrect Theme" (FOUC).
+    
+    1. It is `is:inline` so it executes IMMEDIATELY when the HTML is parsed, before any content is painted.
+    2. It handles:
+       - Initial Load: Reads localStorage and sets `data-theme` on <html> instantly.
+       - View Transitions: Re-runs via `astro:after-swap` to theme the new page body.
+       - Back/Forward Cache: Re-runs via `pageshow` to restore theme when hitting "Back".
+    
+    CRITICAL: The `disableTransitions` function is a "Transition Lock".
+    It temporarily FORCE-DISABLES all CSS transitions while we switch themes.
+    Without this, the browser tries to "animate" from the default theme (Light) to the user's theme (Dark),
+    causing a visible flash/glitch. We lock it, switch it, and unlock it.
+  -->
   <script is:inline data-astro-rerun>
-    // ☝️ This script is inline to avoid FOUC (Flash of Unstyled Content).
-    // The `data-astro-rerun` attribute ensures it runs on every page transition.
     (function () {
       function getTheme() {
         return localStorage.getItem('data-theme') || 'forest';
@@ -67,22 +80,15 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
         applyTheme(doc, theme);
       }
 
-      // Expose debug tool to window
-      window.getThemeDebug = () => {
-        return {
-          localStorage: getTheme(),
-          htmlAttribute: document.documentElement.getAttribute('data-theme'),
-          isMatch: getTheme() === document.documentElement.getAttribute('data-theme')
-        };
-      };
-
+      // Transition Lock: Prevents background color flashing during theme application
       function disableTransitions() {
         const style = document.createElement('style');
         style.id = 'theme-transition-lock';
         style.innerHTML = '*, *::before, *::after { transition: none !important; }';
         document.head.appendChild(style);
+
         return () => {
-          // Force reflow/repaint before removing the lock
+          // Force reflow/repaint to flush the "no-transition" state
           window.getComputedStyle(document.body).opacity;
           requestAnimationFrame(() => {
             const el = document.getElementById('theme-transition-lock');
@@ -91,29 +97,27 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
         };
       }
 
-      // 1. Always set the theme immediately when the script runs (initial load & transitions)
+      // 1. INITIAL LOAD: Run immediately (Block Paint until Theme is set)
       setTheme(document);
 
-      // 2. Handle View Transitions (Client Router)
+      // 2. VIEW TRANSITIONS: Handle client-side navigation
       document.addEventListener('astro:before-swap', ev => {
-        // CRITICAL: Apply theme to the *new* document structure before it is swapped in.
-        // This prevents the "Flash of Default/Wrong Theme" on standard navigation.
+        // Apply theme to the *new* document structure before it is swapped in.
         setTheme(ev.newDocument);
       });
 
       document.addEventListener('astro:after-swap', () => {
-        // Re-apply theme to ensure it persists in the active DOM.
+        // Re-apply verify theme ensures it persists in the active DOM.
         setTheme(document);
       });
 
-      // 3. Handle BFCache (History Navigation) using pageshow
-      // This event fires when a page is restored from the back-forward cache.
+      // 3. HISTORY NAVIGATION: Handle Back/Forward Cache (BFCache)
       window.addEventListener('pageshow', event => {
         if (event.persisted) {
-          const enableTransitions = disableTransitions();
-          // Page was restored from cache, force theme re-application immediately.
-          setTheme(document);
-          enableTransitions();
+          // If page was restored from cache
+          const unlock = disableTransitions(); // Lock transitions
+          setTheme(document); // Apply theme
+          unlock(); // Unlock transitions
         }
       });
     })();
