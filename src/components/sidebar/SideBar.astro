@@ -15,7 +15,7 @@ const { sideBarActiveItemID } = Astro.props;
           class="avatar transition ease-in-out hover:scale-[102%] block m-auto"
           style="display: flex; justify-content: center; align-items: center;"
         >
-          <div class="w-[8.5rem]">
+          <div class="w-[8.5rem] aspect-square">
             <Image
               class="mask mask-circle"
               format="webp"
@@ -23,6 +23,7 @@ const { sideBarActiveItemID } = Astro.props;
               height={300}
               src={profileImg}
               alt="Profile image"
+              loading="eager"
             />
           </div>
         </div>

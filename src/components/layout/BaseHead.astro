@@ -76,6 +76,21 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
         };
       };
 
+      function disableTransitions() {
+        const style = document.createElement('style');
+        style.id = 'theme-transition-lock';
+        style.innerHTML = '*, *::before, *::after { transition: none !important; }';
+        document.head.appendChild(style);
+        return () => {
+          // Force reflow/repaint before removing the lock
+          window.getComputedStyle(document.body).opacity;
+          requestAnimationFrame(() => {
+            const el = document.getElementById('theme-transition-lock');
+            if (el) document.head.removeChild(el);
+          });
+        };
+      }
+
       // 1. Always set the theme immediately when the script runs (initial load & transitions)
       setTheme(document);
 
@@ -95,8 +110,10 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
       // This event fires when a page is restored from the back-forward cache.
       window.addEventListener('pageshow', event => {
         if (event.persisted) {
+          const enableTransitions = disableTransitions();
           // Page was restored from cache, force theme re-application immediately.
           setTheme(document);
+          enableTransitions();
         }
       });
     })();

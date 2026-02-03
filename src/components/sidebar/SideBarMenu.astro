@@ -1,27 +1,23 @@
 ---
 import { NAV_ITEMS } from '../../consts';
 const { sideBarActiveItemID } = Astro.props;
-const activeClass = 'bg-base-300'; // For primary color replace with `active` class
 ---
 
-<ul class="menu grow shrink menu-md overflow-y-auto w-full" data-active-item={sideBarActiveItemID}>
+<ul class="menu grow shrink menu-md overflow-y-auto w-full">
   {
     NAV_ITEMS.map(item => (
       <li>
-        <a class="py-3 text-base block w-full" id={item.id} href={item.url}>
+        <a
+          class:list={[
+            'py-3 text-base block w-full',
+            { 'bg-base-300': item.id === sideBarActiveItemID }
+          ]}
+          id={item.id}
+          href={item.url}
+        >
           {item.name}
         </a>
       </li>
     ))
   }
 </ul>
-
-<script>
-  const activeClass = 'bg-base-300';
-  const menuWithActiveItem = document.querySelector('ul[data-active-item]');
-  if (menuWithActiveItem) {
-    const activeItemID = (menuWithActiveItem as HTMLElement).dataset.activeItem;
-    const activeItemElem = document.getElementById(activeItemID!);
-    activeItemElem && activeItemElem.classList.add(activeClass);
-  }
-</script>
