@@ -1,5 +1,5 @@
 ---
-import { THEMES } from '../consts';
+import { THEMES } from '../../consts';
 ---
 
 <div
@@ -38,7 +38,7 @@ import { THEMES } from '../consts';
   >
     <div class="grid grid-cols-1 gap-3 p-3" tabindex="0">
       {
-        THEMES.map(theme => (
+        THEMES.map((theme: string) => (
           <div
             class="overflow-hidden rounded-lg border-2 border-transparent hover:border-base-content/50 transition-colors"
             data-set-theme={theme}
