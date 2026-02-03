@@ -3,7 +3,7 @@
 @plugin "@tailwindcss/typography";
 @plugin "daisyui" {
   themes:
-    light --default,
+    light,
     dark --prefersdark,
     cupcake,
     bumblebee,
@@ -15,7 +15,7 @@
     valentine,
     halloween,
     garden,
-    forest,
+    forest --default,
     aqua,
     lofi,
     pastel,
