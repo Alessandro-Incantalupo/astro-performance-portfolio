@@ -8,19 +8,19 @@ const home = (await getCollection('home'))[0].data;
 <BaseLayout sideBarActiveItemID="home">
   <div class="pb-12 mt-5">
     <div class="text-xl py-1">{home.greeting}</div>
-    <div class="text-5xl font-bold">{home.intro} {SITE_CREATOR}</div>
+    <div class="text-5xl font-bold"><Fragment set:html={home.intro} /> {SITE_CREATOR}</div>
     <div class="text-3xl py-3 font-bold">{home.role}</div>
     <div class="py-2">
       <span class="text-lg">
-        {home.description}
+        <Fragment set:html={home.description} />
       </span>
     </div>
     <div class="mt-8">
       <a class="btn" href="https://www.linkedin.com/in/alessandro-incantalupo" target="_blank">
-        {home.connect}
+        <Fragment set:html={home.connect} />
       </a>
       <a href="/contacts" class="btn btn-outline ml-5">
-        {home.message}
+        <Fragment set:html={home.message} />
       </a>
     </div>
   </div>

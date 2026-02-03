@@ -1,28 +1,19 @@
 ---
+import { NAV_ITEMS } from '../../consts';
 const { sideBarActiveItemID } = Astro.props;
 const activeClass = 'bg-base-300'; // For primary color replace with `active` class
 ---
 
 <ul class="menu grow shrink menu-md overflow-y-auto w-full" data-active-item={sideBarActiveItemID}>
-  <li><a class="py-3 text-base block w-full" id="home" href="/">Home</a></li>
-  <!--<li><a class="py-3 text-base" id="projects" href="/projects">Projects</a></li>-->
-  <li><a class="py-3 text-base block w-full" id="cv" href="/cv">CV</a></li>
-  <li>
-    <a class="py-3 text-base block w-full" id="contacts" href="/contacts">Contacts</a>
-    <!--<ul class="menu">-->
-    <!--    <li><a href="/contacts#email">Email</a></li>-->
-    <!--    <li><a href="/contacts#phone">Phone</a></li>-->
-    <!--    <li><a href="/contacts#address">Address</a></li>-->
-    <!--</ul>-->
-  </li>
-  <!--<li>-->
-  <!--    <a-->
-  <!--            class="py-3 text-base"-->
-  <!--            href="mailto:alessndro.incantalupog@gmail.com"-->
-  <!--            target="_blank"-->
-  <!--            referrerpolicy="no-referrer-when-downgrade">Contact</a-->
-  <!--    >-->
-  <!--</li>-->
+  {
+    NAV_ITEMS.map(item => (
+      <li>
+        <a class="py-3 text-base block w-full" id={item.id} href={item.url}>
+          {item.name}
+        </a>
+      </li>
+    ))
+  }
 </ul>
 
 <script>

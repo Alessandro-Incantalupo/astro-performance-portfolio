@@ -8,6 +8,11 @@ export const SITE_DESCRIPTION =
   'Alessandro Incantalupo is a Senior Angular Developer and System Architect specializing in high-performance enterprise applications, legacy system migrations (Angular 17-21), and scalable frontend infrastructure. Expert in Zoneless architecture, Signals, and LLM-ready tooling.';
 export const GENERATE_SLUG_FROM_TITLE = true;
 export const TRANSITION_API = true;
+export const NAV_ITEMS = [
+  { name: 'Home', id: 'home', url: '/' },
+  { name: 'CV', id: 'cv', url: '/cv' },
+  { name: 'Contacts', id: 'contacts', url: '/contacts' }
+];
 export const THEMES = [
   'light',
   'dark',

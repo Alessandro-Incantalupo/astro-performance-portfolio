@@ -18,7 +18,7 @@ const learning = (await getCollection('learning'))[0].data;
     <div class="text-3xl w-full font-bold">{profile.title}</div>
   </div>
   <div class="mb-10 text-justify whitespace-pre-line">
-    {profile.description}
+    <Fragment set:html={profile.description} />
   </div>
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">Most Recent Experience</div>
@@ -32,7 +32,7 @@ const learning = (await getCollection('learning'))[0].data;
         )
         .map(item => (
           <TimeLineElement title={item.data.title} subtitle={item.data.subtitle}>
-            {item.data.description}
+            <Fragment set:html={item.data.description} />
           </TimeLineElement>
         ))
     }
