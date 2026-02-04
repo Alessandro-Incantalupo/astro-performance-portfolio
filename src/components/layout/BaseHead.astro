@@ -49,6 +49,19 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
   <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
   <!-- 
+    JSON-LD STRUCTURED DATA
+    This helps Google understand the site structure and generates "Sitelinks" (the sub-navigation links in search results).
+  -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "WebSite",
+      "name": "{title}",
+      "url": "{Astro.url.origin}"
+    }
+  </script>
+
+  <!-- 
     THEME LOGIC EXPLAINED
     This script is critical for preventing "Flash of Incorrect Theme" (FOUC).
     
