@@ -7,7 +7,7 @@ import { NAV_ITEMS } from '../../consts';
 const { sideBarActiveItemID } = Astro.props;
 ---
 
-<ul class="menu grow shrink menu-md overflow-y-auto w-full">
+<ul class="menu:vertical grow shrink menu-md overflow-y-auto w-full">
   {
     NAV_ITEMS.map(item => (
       <li>
