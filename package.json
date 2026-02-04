@@ -14,7 +14,9 @@
     "@astrojs/sitemap": "^3.7.0",
     "@fontsource/poppins": "^5.2.7",
     "@tailwindcss/vite": "^4.1.18",
+    "@types/canvas-confetti": "^1.9.0",
     "astro": "^5.16.15",
+    "canvas-confetti": "^1.9.4",
     "sharp": "^0.34.3",
     "tailwindcss": "^4.1.18"
   },

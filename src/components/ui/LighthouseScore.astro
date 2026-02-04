@@ -1,0 +1,151 @@
+---
+
+---
+
+<div class="flex flex-col items-center mt-10 mb-5 w-full px-4">
+  <h2 class="text-2xl font-bold mb-2">Lighthouse Scores</h2>
+  <p class="text-xs font-medium mb-6 text-center max-w-md">100% scores across all categories.</p>
+
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-row justify-center items-center gap-6 pointer-events-none select-none w-full max-w-lg lg:max-w-none"
+  >
+    <!-- Performance -->
+    <div class="flex flex-col items-center gap-2">
+      <div
+        class="radial-progress text-success transition-all duration-1000 ease-out"
+        style="--value:0; --size:4rem; --thickness: 4px;"
+        role="progressbar"
+        aria-label="Performance Score"
+        aria-valuenow="100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        data-score="100"
+      >
+        <span class="text-lg font-bold text-base-content score-text">0</span>
+      </div>
+      <span class="text-xs font-bold uppercase tracking-wider">Performance</span>
+    </div>
+
+    <!-- Accessibility -->
+    <div class="flex flex-col items-center gap-2">
+      <div
+        class="radial-progress text-success transition-all duration-1000 ease-out"
+        style="--value:0; --size:4rem; --thickness: 4px;"
+        role="progressbar"
+        aria-label="Accessibility Score"
+        aria-valuenow="100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        data-score="100"
+      >
+        <span class="text-lg font-bold text-base-content score-text">0</span>
+      </div>
+      <span class="text-xs font-bold uppercase tracking-wider">Accessibility</span>
+    </div>
+
+    <!-- Best Practices -->
+    <div class="flex flex-col items-center gap-2">
+      <div
+        class="radial-progress text-success transition-all duration-1000 ease-out"
+        style="--value:0; --size:4rem; --thickness: 4px;"
+        role="progressbar"
+        aria-label="Best Practices Score"
+        aria-valuenow="100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        data-score="100"
+      >
+        <span class="text-lg font-bold text-base-content score-text">0</span>
+      </div>
+      <span class="text-xs font-bold uppercase tracking-wider">Best Practices</span>
+    </div>
+
+    <!-- SEO -->
+    <div class="flex flex-col items-center gap-2">
+      <div
+        class="radial-progress text-success transition-all duration-1000 ease-out"
+        style="--value:0; --size:4rem; --thickness: 4px;"
+        role="progressbar"
+        aria-label="SEO Score"
+        aria-valuenow="100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        data-score="100"
+      >
+        <span class="text-lg font-bold text-base-content score-text">0</span>
+      </div>
+      <span class="text-xs font-bold uppercase tracking-wider">SEO</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import confetti from 'canvas-confetti';
+
+  function animateScores() {
+    const gauges = document.querySelectorAll('.radial-progress');
+    let completed = 0;
+
+    gauges.forEach(gauge => {
+      const el = gauge as HTMLElement;
+      // Force reset to ensure animation plays again on navigation
+      el.style.setProperty('--value', '0');
+      const textSpan = el.querySelector('.score-text');
+      if (textSpan) textSpan.textContent = '0';
+
+      const target = parseInt(el.dataset.score || '100');
+
+      // Small delay to ensure the reset frame is rendered
+      setTimeout(() => {
+        el.style.setProperty('--value', target.toString());
+
+        // Animate the number counting up
+        let current = 0;
+        const interval = setInterval(() => {
+          current += 2;
+          if (current >= target) {
+            current = target;
+            clearInterval(interval);
+
+            // Track completion for confetti
+            completed++;
+            if (completed === gauges.length) {
+              triggerConfetti();
+            }
+          }
+          if (textSpan) textSpan.textContent = current.toString();
+        }, 20); // 100 / 2 * 20ms = ~1000ms duration
+      }, 100);
+    });
+  }
+
+  function triggerConfetti() {
+    const duration = 2000;
+    const end = Date.now() + duration;
+
+    (function frame() {
+      // Launch confetti from left and right edges bottom
+      confetti({
+        particleCount: 3,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.9 },
+        colors: ['#00a96e', '#ffeb3b', '#ff5722']
+      });
+      confetti({
+        particleCount: 3,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.9 },
+        colors: ['#00a96e', '#ffeb3b', '#ff5722']
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
+  }
+
+  // Run on View Transitions (Astro 3.0+)
+  document.addEventListener('astro:page-load', animateScores);
+</script>

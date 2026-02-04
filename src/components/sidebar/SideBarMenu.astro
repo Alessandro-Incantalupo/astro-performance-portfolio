@@ -7,7 +7,7 @@ import { NAV_ITEMS } from '../../consts';
 const { sideBarActiveItemID } = Astro.props;
 ---
 
-<ul class="menu:vertical grow shrink menu-md overflow-y-auto w-full">
+<ul class="menu grow shrink menu:vertical-md overflow-y-auto w-full">
   {
     NAV_ITEMS.map(item => (
       <li>
@@ -35,7 +35,7 @@ const { sideBarActiveItemID } = Astro.props;
 
   function updateActiveLink(path: string | null = null) {
     const currentPath = path || window.location.pathname;
-    const menuItems = document.querySelectorAll('#sidebar-menu a');
+    const menuItems = document.querySelectorAll('#sidebar-menu:vertical a');
 
     menuItems.forEach(item => {
       const link = item as HTMLAnchorElement;
@@ -54,13 +54,9 @@ const { sideBarActiveItemID } = Astro.props;
   }
 
   // 1. CLICK HANDLER: THE "OPTIMISTIC UI" STRATEGY
-  // Default Astro navigation waits for the network, which causes a delay where the old link looks active.
-  // We intercept the click to:
-  // A. PREVENT DEFAULT: Stop Astro from handling it immediately.
-  // B. UPDATE INSTANTLY: Move the highlight class (0ms latency).
-  // C. TRIGGER NAVIGATION: Manually tell the router to go to the new URL.
   document.addEventListener('DOMContentLoaded', () => {
-    const menu = document.getElementById('sidebar-menu');
+    // Select by class
+    const menu = document.querySelector('.sidebar-nav-list');
     if (menu) {
       menu.addEventListener('click', e => {
         const target = e.target as HTMLElement;
@@ -81,7 +77,6 @@ const { sideBarActiveItemID } = Astro.props;
   });
 
   // 2. Handle Back/Forward Button (State Correction)
-  // Since the sidebar is persisted, it won't auto-update on Back button. We must watch for page loads.
   document.addEventListener('astro:page-load', () => {
     updateActiveLink(null);
   });

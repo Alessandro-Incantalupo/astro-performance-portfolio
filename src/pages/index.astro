@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import LighthouseScore from '../components/ui/LighthouseScore.astro';
 import { SITE_CREATOR } from '../consts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 const home = (await getCollection('home'))[0].data;
@@ -22,6 +23,11 @@ const home = (await getCollection('home'))[0].data;
       <a href="/contacts" class="btn btn-outline ml-5">
         <Fragment set:html={home.message} />
       </a>
+    </div>
+
+    <!-- Lighthouse Score Celebration -->
+    <div class="mt-8">
+      <LighthouseScore />
     </div>
   </div>
 </BaseLayout>

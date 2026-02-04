@@ -103,9 +103,13 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
         return () => {
           // Force reflow/repaint to flush the "no-transition" state
           window.getComputedStyle(document.body).opacity;
+
+          // Double RAF to ensure we wait for the next paint frame
           requestAnimationFrame(() => {
-            const el = document.getElementById('theme-transition-lock');
-            if (el) document.head.removeChild(el);
+            requestAnimationFrame(() => {
+              const el = document.getElementById('theme-transition-lock');
+              if (el) document.head.removeChild(el);
+            });
           });
         };
       }
