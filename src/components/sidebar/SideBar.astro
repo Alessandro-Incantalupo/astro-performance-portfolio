@@ -8,14 +8,24 @@ const { sideBarActiveItemID } = Astro.props;
 
 <div class="drawer-side z-40 sidebar scrollbar scrollbar-hide">
   <label for="my-drawer" class="drawer-overlay"></label>
-  <aside class="px-2 pt-2 h-auto min-h-full w-[19rem] bg-base-200 text-base-content flex flex-col">
+  <!-- 
+    SIDEBAR PERSISTENCE EXPLAINED:
+    We use `transition:persist` here to prevent the sidebar from being destroyed/recreated on navigation.
+    This guarantees 0ms flashing/blinking of the background.
+    
+    NOTE: Because this component persists, it DOES NOT update from the server on new page loads.
+    We must use a client-side script (in SideBarMenu.astro) to manually update the active link class.
+  -->
+  <aside
+    class="px-2 pt-2 h-auto min-h-full w-76 bg-base-200 text-base-content flex flex-col"
+    transition:persist
+  >
     <div class="w-fit mx-auto mt-5 mb-6">
       <a href="/">
         <div
-          class="avatar transition ease-in-out hover:scale-[102%] block m-auto"
-          style="display: flex; justify-content: center; align-items: center;"
+          class="avatar transition ease-in-out hover:scale-[102%] block m-auto flex justify-center items-center"
         >
-          <div class="w-[8.5rem] aspect-square">
+          <div class="w-34 aspect-square">
             <Image
               class="mask mask-circle"
               format="webp"
@@ -24,6 +34,7 @@ const { sideBarActiveItemID } = Astro.props;
               src={profileImg}
               alt="Profile image"
               loading="eager"
+              transition:name="profile-image"
             />
           </div>
         </div>

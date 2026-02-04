@@ -112,9 +112,20 @@ import { THEMES } from '../../consts';
           const btnEl = btn as HTMLElement;
           const newTheme = btnEl.getAttribute('data-set-theme');
           if (newTheme) {
+            // TRANSITION LOCK: Prevent flash/fade when switching themes manually
+            const style = document.createElement('style');
+            style.innerHTML = '*, *::before, *::after { transition: none !important; }';
+            document.head.appendChild(style);
+
             localStorage.setItem('data-theme', newTheme);
             document.documentElement.setAttribute('data-theme', newTheme);
             updateVisualState();
+
+            // UNLOCK: Flush changes then remove lock
+            window.getComputedStyle(document.body).opacity;
+            requestAnimationFrame(() => {
+              style.remove();
+            });
           }
         });
       });

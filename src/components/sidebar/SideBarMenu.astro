@@ -18,6 +18,7 @@ const { sideBarActiveItemID } = Astro.props;
           ]}
           id={item.id}
           href={item.url}
+          data-astro-prefetch="viewport"
         >
           {item.name}
         </a>
@@ -25,3 +26,63 @@ const { sideBarActiveItemID } = Astro.props;
     ))
   }
 </ul>
+
+<script>
+  // We need to import the router to manually trigger navigation after we intercept it.
+  import { navigate } from 'astro:transitions/client';
+
+  const activeClass = 'bg-base-300';
+
+  function updateActiveLink(path: string | null = null) {
+    const currentPath = path || window.location.pathname;
+    const menuItems = document.querySelectorAll('#sidebar-menu a');
+
+    menuItems.forEach(item => {
+      const link = item as HTMLAnchorElement;
+      link.classList.remove(activeClass);
+
+      const href = link.getAttribute('href');
+      // Logic: Exact match or Subpath match (for nested routes)
+      if (href && (href === currentPath || (href !== '/' && currentPath.startsWith(href)))) {
+        link.classList.add(activeClass);
+      }
+      // Explicit Home Check
+      if (href === '/' && currentPath === '/') {
+        link.classList.add(activeClass);
+      }
+    });
+  }
+
+  // 1. CLICK HANDLER: THE "OPTIMISTIC UI" STRATEGY
+  // Default Astro navigation waits for the network, which causes a delay where the old link looks active.
+  // We intercept the click to:
+  // A. PREVENT DEFAULT: Stop Astro from handling it immediately.
+  // B. UPDATE INSTANTLY: Move the highlight class (0ms latency).
+  // C. TRIGGER NAVIGATION: Manually tell the router to go to the new URL.
+  document.addEventListener('DOMContentLoaded', () => {
+    const menu = document.getElementById('sidebar-menu');
+    if (menu) {
+      menu.addEventListener('click', e => {
+        const target = e.target as HTMLElement;
+        const link = target.closest('a');
+        if (link && menu.contains(link)) {
+          e.preventDefault(); // Stop Astro/Browser from handling it yet
+          const href = link.getAttribute('href');
+          if (href) {
+            // 1. Optimistic UI Update (Instant)
+            updateActiveLink(href);
+
+            // 2. Trigger Navigation Manually
+            navigate(href);
+          }
+        }
+      });
+    }
+  });
+
+  // 2. Handle Back/Forward Button (State Correction)
+  // Since the sidebar is persisted, it won't auto-update on Back button. We must watch for page loads.
+  document.addEventListener('astro:page-load', () => {
+    updateActiveLink(null);
+  });
+</script>

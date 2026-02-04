@@ -104,21 +104,39 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
       document.addEventListener('astro:before-swap', ev => {
         // Apply theme to the *new* document structure before it is swapped in.
         setTheme(ev.newDocument);
+
+        // TRANSITION LOCK (View Transition):
+        // Inject the lock style into the *incoming* document's head.
+        // This ensures the new page paints with transitions DISABLED.
+        const style = ev.newDocument.createElement('style');
+        style.id = 'theme-transition-lock';
+        style.innerHTML = '*, *::before, *::after { transition: none !important; }';
+        ev.newDocument.head.appendChild(style);
       });
 
       document.addEventListener('astro:after-swap', () => {
         // Re-apply verify theme ensures it persists in the active DOM.
         setTheme(document);
+
+        // UNLOCK:
+        // The new head (with the lock) is now active. Remove it properly.
+        const el = document.getElementById('theme-transition-lock');
+        if (el) {
+          // Force reflow to flush the "no-transition" state
+          window.getComputedStyle(document.body).opacity;
+          requestAnimationFrame(() => {
+            el.remove();
+          });
+        }
       });
 
       // 3. HISTORY NAVIGATION: Handle Back/Forward Cache (BFCache)
       window.addEventListener('pageshow', event => {
-        if (event.persisted) {
-          // If page was restored from cache
-          const unlock = disableTransitions(); // Lock transitions
-          setTheme(document); // Apply theme
-          unlock(); // Unlock transitions
-        }
+        // We run this unconditionally (even if not persisted) to ensure consistency
+        // on all history traversals, fixing the "First Back Click" flash.
+        const unlock = disableTransitions(); // Lock transitions
+        setTheme(document); // Force apply correct theme
+        unlock(); // Unlock transitions
       });
     })();
   </script>
