@@ -24,6 +24,29 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
   <link rel="shortcut icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
+  <!-- Font Preloading: Critical for minimizing FOUT/FOIT and improving LCP -->
+  <link
+    rel="preload"
+    href="/fonts/poppins-latin-400-normal.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+  <link
+    rel="preload"
+    href="/fonts/poppins-latin-600-normal.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+  <link
+    rel="preload"
+    href="/fonts/poppins-latin-700-normal.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+
   <meta name="generator" content={Astro.generator} />
 
   <!-- Google Site Verification -->
