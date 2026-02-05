@@ -17,8 +17,18 @@ const learning = (await getCollection('learning'))[0].data;
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">{profile.title}</div>
   </div>
-  <div class="mb-10 text-justify whitespace-pre-line">
-    <Fragment set:html={profile.description} />
+  <div class="mb-10">
+    {
+      Array.isArray(profile.description) ? (
+        profile.description.map(desc => (
+          <p class="mb-2">
+            <Fragment set:html={desc} />
+          </p>
+        ))
+      ) : (
+        <Fragment set:html={profile.description} />
+      )
+    }
   </div>
   <div class="mb-5">
     <div class="text-3xl w-full font-bold">Most Recent Experience</div>
@@ -32,7 +42,15 @@ const learning = (await getCollection('learning'))[0].data;
         )
         .map(item => (
           <TimeLineElement title={item.data.title} subtitle={item.data.subtitle}>
-            <Fragment set:html={item.data.description} />
+            {Array.isArray(item.data.description) ? (
+              item.data.description.map(desc => (
+                <p class="mb-2">
+                  <Fragment set:html={desc} />
+                </p>
+              ))
+            ) : (
+              <Fragment set:html={item.data.description} />
+            )}
           </TimeLineElement>
         ))
     }
@@ -60,7 +78,13 @@ const learning = (await getCollection('learning'))[0].data;
     <div class="text-3xl w-full font-bold">Skills</div>
   </div>
   <ul class="list-disc md:columns-5 columns-2 mx-6 mb-10">
-    {skills.map(item => <li>{item}</li>)}
+    {
+      skills.map(item => (
+        <li>
+          <Fragment set:html={item} />
+        </li>
+      ))
+    }
   </ul>
 
   <div class="mb-5">

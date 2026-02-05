@@ -1,13 +1,13 @@
 {
-  "title": "Angular Frontend Developer",
+  "title": "Angular Developer",
   "subtitle": "Sep 2023 – Oct 2025 | Accenture",
   "startDate": "2023-09-01",
   "description": [
-    "Implemented NgRx Signal Store for centralized state management, enabling frontend team to deliver state-related features 60% faster.",
-    "Pioneered Zoneless Angular architecture with Signals, reducing change detection triggers by 90% via fine-grained dependency tracking.",
-    "Established Figma-to-code workflow using TailwindCSS design tokens and PrimeNG, achieving 95% first-delivery acceptance on UI implementations.",
-    "Standardized Git operations and conventional commit practices, virtually eliminating clearable merge conflicts and streamlining code reviews.",
-    "Engineered Azure DevOps CI/CD pipelines enabling daily zero-downtime production releases with automated rollback capabilities.",
-    "Streamlined Backend/Frontend collaboration by defining strict REST API contracts, significantly reducing integration friction and handover delays."
+    "Implemented <b>NgRx Signal Store</b> for centralized state management, enabling frontend team to <b>deliver state-related features 60% faster</b>.",
+    "Pioneered <b>Zoneless Angular architecture</b> with Signals, <b>reducing change detection triggers by 90%</b> via fine-grained dependency tracking.",
+    "Established <b>Figma-to-code workflow</b> using TailwindCSS design tokens and PrimeNG, achieving <b>95% first-delivery acceptance</b> on UI implementations.",
+    "Standardized <b>Git operations and conventional commit practices</b>, virtually eliminating clearable merge conflicts and streamlining code reviews.",
+    "Engineered Azure DevOps CI/CD pipelines enabling <b>daily zero-downtime production releases</b> with automated rollback capabilities.",
+    "Streamlined Backend/Frontend collaboration by defining <b>strict REST API contracts</b>, significantly <b>reducing integration friction</b> and handover delays."
   ]
 }

@@ -1,13 +1,13 @@
 {
-  "title": "Frontend Developer",
+  "title": "Angular Developer",
   "subtitle": "Sep 2022 – Aug 2023 | ELAB (A.S. Watson Group)",
   "startDate": "2022-09-01",
   "description": [
-    "Developed 3+ live Angular applications for major retail brands (Marionnaud, ICI Paris, Kruidvat), enhancing engagement on both web and mobile platforms.",
-    "Architected Service-Oriented layers for REST API integration, coupling reactive forms with data-driven UI flows for optimal responsiveness.",
-    "Executed rigorous unit and integration testing protocols, ensuring high system stability and minimizing production regressions.",
-    "Collaborated closely with UI/UX designers to translate design specs into accessible (WCAG compliant) components.",
-    "Active participant in Agile ceremonies (grooming, stand-ups, retrospectives), consistently delivering features with a pragmatic, problem-solving mindset.",
-    "Led code review sessions to enforce component design standards and improve maintainability across the codebase."
+    "Developed <b>3+ live Angular applications</b> for <b>major retail brands</b> (Marionnaud, ICI Paris, Kruidvat), enhancing engagement on both web and mobile platforms.",
+    "Architected <b>Service-Oriented layers</b> for REST API integration, coupling reactive forms with data-driven UI flows for optimal responsiveness.",
+    "Executed <b>rigorous unit and integration testing</b> protocols, ensuring high system stability and minimizing production regressions.",
+    "Collaborated closely with UI/UX designers to translate design specs into <b>accessible (WCAG compliant) components</b>.",
+    "Active participant in <b>Agile ceremonies</b> (grooming, stand-ups, retrospectives), consistently delivering features with a <b>pragmatic, problem-solving mindset</b>.",
+    "Led <b>code review sessions</b> to enforce <b>component design standards</b> and improve maintainability across the codebase."
   ]
 }

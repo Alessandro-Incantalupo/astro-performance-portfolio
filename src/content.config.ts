@@ -7,9 +7,7 @@ const experience = defineCollection({
     title: z.string(),
     subtitle: z.string(),
     startDate: z.string().optional(),
-    description: z
-      .union([z.string(), z.array(z.string())])
-      .transform(val => (Array.isArray(val) ? val.join('\n\n') : val))
+    description: z.union([z.string(), z.array(z.string())])
   })
 });
 
@@ -35,9 +33,7 @@ const profile = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/profile' }),
   schema: z.object({
     title: z.string(),
-    description: z
-      .union([z.string(), z.array(z.string())])
-      .transform(val => (Array.isArray(val) ? val.join('\n\n') : val))
+    description: z.union([z.string(), z.array(z.string())])
   })
 });
 
