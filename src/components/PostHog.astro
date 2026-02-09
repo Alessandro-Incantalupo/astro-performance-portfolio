@@ -1,0 +1,31 @@
+<script>
+  import posthog from 'posthog-js';
+
+  const API_KEY = import.meta.env.PUBLIC_POSTHOG_API_KEY;
+  const API_HOST = import.meta.env.PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
+
+  if (API_KEY) {
+    const initPostHog = () => {
+      posthog.init(API_KEY, {
+        api_host: API_HOST,
+        persistence: 'localStorage+cookie', // Or just 'localStorage'
+        loaded: posthog => {
+          if (import.meta.env.DEV) posthog.debug();
+        }
+      });
+    };
+
+    // Initialize immediately for now (learning mode / no banner)
+    // const consent = localStorage.getItem('cookie-consent');
+    // if (consent === 'granted') {
+    initPostHog();
+    // }
+
+    // Listen for consent event from the banner
+    // window.addEventListener('cookie-consent-granted', () => {
+    //     if (!posthog.__loaded) {
+    //         initPostHog();
+    //     }
+    // });
+  }
+</script>
