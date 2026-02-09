@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import PostHog from '../components/PostHog.astro';
 import Footer from '../components/layout/Footer.astro';
 import Header from '../components/layout/Header.astro';
 import SideBar from '../components/sidebar/SideBar.astro';
@@ -20,6 +21,7 @@ const {
 
 <html lang="en" class="min-h-screen justify-between">
   <BaseHead title={title} description={description} image={image} , ogType={ogType}>
+    <PostHog />
     {TRANSITION_API && <ClientRouter />}
   </BaseHead>
   <body class="flex flex-col min-h-screen justify-between">
@@ -38,5 +40,6 @@ const {
       </div>
       {includeSidebar && <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
     </div>
+    <!--    <!-- <CookieBanner /> --> -->
   </body>
 </html>

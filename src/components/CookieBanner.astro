@@ -1,0 +1,56 @@
+<div
+  id="cookie-banner"
+  class="fixed bottom-0 left-0 right-0 bg-base-300 p-4 shadow-lg transform translate-y-full transition-transform duration-300 z-50 flex flex-col sm:flex-row justify-between items-center gap-4 hidden"
+>
+  <div class="text-sm">
+    <p class="font-bold">🍪 Cookie Settings</p>
+    <p>I use analytics to improve this site. No personal data is sold. Do you accept?</p>
+  </div>
+  <div class="flex gap-2">
+    <button id="decline-cookies" class="btn btn-sm btn-ghost">Decline</button>
+    <button id="accept-cookies" class="btn btn-sm btn-primary">Accept</button>
+  </div>
+</div>
+
+<script>
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('accept-cookies');
+  const declineBtn = document.getElementById('decline-cookies');
+
+  const showBanner = () => {
+    if (banner) {
+      banner.classList.remove('hidden');
+      // Small delay to allow transition
+      setTimeout(() => {
+        banner.classList.remove('translate-y-full');
+      }, 100);
+    }
+  };
+
+  const hideBanner = () => {
+    if (banner) {
+      banner.classList.add('translate-y-full');
+      setTimeout(() => {
+        banner.classList.add('hidden');
+      }, 300);
+    }
+  };
+
+  // Check if user has already made a choice
+  const consent = localStorage.getItem('cookie-consent');
+  if (!consent) {
+    showBanner();
+  }
+
+  acceptBtn?.addEventListener('click', () => {
+    localStorage.setItem('cookie-consent', 'granted');
+    hideBanner();
+    // Dispatch event for PostHog component to listen to
+    window.dispatchEvent(new Event('cookie-consent-granted'));
+  });
+
+  declineBtn?.addEventListener('click', () => {
+    localStorage.setItem('cookie-consent', 'denied');
+    hideBanner();
+  });
+</script>
