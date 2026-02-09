@@ -1,31 +1,48 @@
-<script>
-  import posthog from 'posthog-js';
+---
+const API_KEY = import.meta.env.PUBLIC_POSTHOG_API_KEY;
+const API_HOST = import.meta.env.PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
+---
 
-  const API_KEY = import.meta.env.PUBLIC_POSTHOG_API_KEY;
-  const API_HOST = import.meta.env.PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
+<!-- 
+  RACE CONDITION FIX:
+  We use a hidden div with data attributes to pass environment variables to the client-side script.
+  Relying on `import.meta.env` directly in the `<script>` tag can fail if the script runs before 
+  the virtual module is ready or if the component is placed in the `<head>`. 
+  Parsing from the DOM ensures the data is available when the script executes.
+-->
+<div id="posthog-settings" data-key={API_KEY} data-host={API_HOST} style="display: none;"></div>
+
+<script>
+  const settings = document.getElementById('posthog-settings')?.dataset;
+  const API_KEY = settings?.key;
+  const API_HOST = settings?.host;
 
   if (API_KEY) {
-    const initPostHog = () => {
-      posthog.init(API_KEY, {
-        api_host: API_HOST,
-        persistence: 'localStorage+cookie', // Or just 'localStorage'
-        loaded: posthog => {
-          if (import.meta.env.DEV) posthog.debug();
-        }
-      });
+    const initPostHog = async () => {
+      try {
+        // PERFORMANCE FIX (LCP):
+        // We use `import('posthog-js')` (Dynamic Import) instead of a top-level import.
+        // This allows the browser to prioritize rendering the First Contentful Paint (FCP)
+        // before loading the heavy analytics script.
+        const { default: posthog } = await import('posthog-js');
+        posthog.init(API_KEY, {
+          api_host: API_HOST,
+          persistence: 'localStorage+cookie',
+          loaded: ph => {
+            if (import.meta.env.DEV) ph.debug();
+          }
+        });
+      } catch (e) {
+        console.error('PostHog failed to load', e);
+      }
     };
 
-    // Initialize immediately for now (learning mode / no banner)
-    // const consent = localStorage.getItem('cookie-consent');
-    // if (consent === 'granted') {
-    initPostHog();
-    // }
-
-    // Listen for consent event from the banner
-    // window.addEventListener('cookie-consent-granted', () => {
-    //     if (!posthog.__loaded) {
-    //         initPostHog();
-    //     }
-    // });
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(initPostHog);
+    } else {
+      setTimeout(initPostHog, 200);
+    }
+  } else {
+    console.warn('PostHog API Key is missing. Check your .env file.');
   }
 </script>

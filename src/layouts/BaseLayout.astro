@@ -21,7 +21,6 @@ const {
 
 <html lang="en" class="min-h-screen justify-between">
   <BaseHead title={title} description={description} image={image} , ogType={ogType}>
-    <PostHog />
     {TRANSITION_API && <ClientRouter />}
   </BaseHead>
   <body class="flex flex-col min-h-screen justify-between">
@@ -41,5 +40,6 @@ const {
       {includeSidebar && <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
     </div>
     <!--    <!-- <CookieBanner /> --> -->
+    <PostHog />
   </body>
 </html>
