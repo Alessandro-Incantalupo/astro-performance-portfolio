@@ -1,0 +1,67 @@
+---
+import { getEntry } from 'astro:content';
+
+const cookieBanner = await getEntry('ui', 'cookie-banner');
+const data = cookieBanner?.data ?? {
+  title: 'Cookie Info 🍪',
+  message:
+    'We use analytics to improve this site. By using this site, you agree to our use of cookies.',
+  acceptBtn: 'Got it'
+};
+---
+
+<div id="cookie-banner" class="toast toast-bottom toast-center z-50 hidden">
+  <div class="alert bg-base-100 shadow-lg border-base-300">
+    <div>
+      <h3 class="font-bold">{data.title}</h3>
+      <div class="text-xs">{data.message}</div>
+    </div>
+    <div class="flex-none gap-2">
+      <button id="accept-cookies" class="btn btn-sm btn-primary">{data.acceptBtn}</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('accept-cookies');
+
+  const showBanner = () => {
+    if (banner) {
+      banner.classList.remove('hidden');
+    }
+  };
+
+  const hideBanner = () => {
+    if (banner) {
+      banner.classList.add('hidden');
+    }
+  };
+
+  const setConsent = (type: 'implicit' | 'granted') => {
+    localStorage.setItem('cookie-consent', type);
+    hideBanner();
+    // Dispatch event for PostHog component to listen to
+    window.dispatchEvent(new Event('cookie-consent-granted'));
+  };
+
+  // Check if user has already made a choice
+  const consent = localStorage.getItem('cookie-consent');
+
+  if (!consent) {
+    showBanner();
+
+    // Implicit consent on scroll
+    const onScroll = () => {
+      if (window.scrollY > 100) {
+        setConsent('implicit');
+        window.removeEventListener('scroll', onScroll);
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  acceptBtn?.addEventListener('click', () => {
+    setConsent('granted');
+  });
+</script>

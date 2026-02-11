@@ -54,6 +54,15 @@ const home = defineCollection({
   })
 });
 
+const ui = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/ui' }),
+  schema: z.object({
+    title: z.string(),
+    message: z.string(),
+    acceptBtn: z.string()
+  })
+});
+
 export const collections = {
   experience,
   education,
@@ -61,5 +70,6 @@ export const collections = {
   certifications,
   profile,
   learning,
-  home
+  home,
+  ui
 };

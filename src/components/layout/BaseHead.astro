@@ -30,21 +30,21 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
     href="/fonts/poppins-latin-400-normal.woff2"
     as="font"
     type="font/woff2"
-    crossorigin
+    crossorigin="anonymous"
   />
   <link
     rel="preload"
     href="/fonts/poppins-latin-600-normal.woff2"
     as="font"
     type="font/woff2"
-    crossorigin
+    crossorigin="anonymous"
   />
   <link
     rel="preload"
     href="/fonts/poppins-latin-700-normal.woff2"
     as="font"
     type="font/woff2"
-    crossorigin
+    crossorigin="anonymous"
   />
 
   <meta name="generator" content={Astro.generator} />
@@ -180,28 +180,5 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
       });
     })();
   </script>
-  <script>
-    import posthog from 'posthog-js';
-
-    function initPostHog() {
-      if (typeof window !== 'undefined' && !(window as any).posthog) {
-        posthog.init(import.meta.env.PUBLIC_POSTHOG_API_KEY, {
-          api_host: import.meta.env.PUBLIC_POSTHOG_HOST,
-          person_profiles: 'identified_only',
-          capture_pageview: false // Disable automatic pageview capture, we trigger it manually
-        });
-      }
-      return posthog;
-    }
-
-    // Initialize on first load
-    const ph = initPostHog();
-
-    // Handle View Transitions
-    document.addEventListener('astro:page-load', () => {
-      if ((window as any).posthog) {
-        (window as any).posthog.capture('$pageview');
-      }
-    });
-  </script>
+  <slot />
 </head>

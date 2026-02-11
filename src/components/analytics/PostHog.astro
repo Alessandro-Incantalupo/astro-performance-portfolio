@@ -1,0 +1,66 @@
+<script is:inline>
+  !(function (t, e) {
+    var o, n, p, r;
+    e.__SV ||
+      ((window.posthog = e),
+      (e._i = []),
+      (e.init = function (i, s, a) {
+        function g(t, e) {
+          var o = e.split('.');
+          (2 == o.length && ((t = t[o[0]]), (e = o[1])),
+            (t[e] = function () {
+              t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+            }));
+        }
+        (((p = t.createElement('script')).type = 'text/javascript'),
+          (p.async = !0),
+          (p.src =
+            s.api_host.replace('.i.posthog.com', '-assets.i.posthog.com') + '/static/array.js'),
+          (r = t.getElementsByTagName('script')[0]).parentNode.insertBefore(p, r));
+        var u = e;
+        for (
+          void 0 !== a ? (u = e[a] = []) : (a = 'posthog'),
+            u.people = u.people || [],
+            u.toString = function (t) {
+              var e = 'posthog';
+              return ('posthog' !== a && (e += '.' + a), t || (e += ' (stub)'), e);
+            },
+            u.people.toString = function () {
+              return u.toString(1) + '.people (stub)';
+            },
+            o =
+              'init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep'.split(
+                ' '
+              ),
+            n = 0;
+          n < o.length;
+          n++
+        )
+          g(u, o[n]);
+        e._i.push([i, s, a]);
+      }),
+      (e.__SV = 1));
+  })(document, window.posthog || []);
+
+  // Initialize with config
+  posthog.init('phc_3xYWyQ74gLFrcAmphLArDKX8ogrOxaduHj5f2BbvKOE', {
+    api_host: '/ingest', // Proxy through Netlify to bypass ad blockers & use first-party cookies
+    ui_host: 'https://us.posthog.com', // UI host is still the same
+    person_profiles: 'identified_only',
+    capture_pageview: false // We handle this manually for View Transitions
+  });
+
+  // Handle View Transitions and initial load
+  document.addEventListener('astro:page-load', () => {
+    if (window['posthog']) {
+      window['posthog'].capture('$pageview');
+    }
+  });
+
+  // Handle cookie consent
+  window.addEventListener('cookie-consent-granted', () => {
+    if (window['posthog']) {
+      window['posthog'].opt_in_capturing();
+    }
+  });
+</script>
