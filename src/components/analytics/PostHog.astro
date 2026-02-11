@@ -43,9 +43,12 @@
   })(document, window.posthog || []);
 
   // Initialize with config
+  // Use full URL in development, proxy in production
+  const isLocalDev =
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   posthog.init('phc_3xYWyQ74gLFrcAmphLArDKX8ogrOxaduHj5f2BbvKOE', {
-    api_host: '/ingest', // Proxy through Netlify to bypass ad blockers & use first-party cookies
-    ui_host: 'https://us.posthog.com', // UI host is still the same
+    api_host: isLocalDev ? 'https://us.i.posthog.com' : '/ingest', // Proxy through Netlify in production
+    ui_host: 'https://us.posthog.com',
     person_profiles: 'identified_only',
     capture_pageview: false // We handle this manually for View Transitions
   });

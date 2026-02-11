@@ -7,7 +7,7 @@ import { NAV_ITEMS } from '../../consts';
 const { sideBarActiveItemID } = Astro.props;
 ---
 
-<ul class="menu grow shrink menu:vertical-md overflow-y-auto w-full">
+<ul class="menu grow shrink menu:vertical-md overflow-y-auto w-full sidebar-nav-list">
   {
     NAV_ITEMS.map(item => (
       <li>
@@ -27,18 +27,15 @@ const { sideBarActiveItemID } = Astro.props;
   }
 </ul>
 
-<script>
-  // We need to import the router to manually trigger navigation after we intercept it.
-  import { navigate } from 'astro:transitions/client';
-
+<script is:inline>
   const activeClass = 'bg-base-300';
 
-  function updateActiveLink(path: string | null = null) {
-    const currentPath = path || window.location.pathname;
-    const menuItems = document.querySelectorAll('#sidebar-menu:vertical a');
+  function updateActiveLink() {
+    const currentPath = window.location.pathname;
+    const menuItems = document.querySelectorAll('.sidebar-nav-list a');
 
     menuItems.forEach(item => {
-      const link = item as HTMLAnchorElement;
+      const link = item;
       link.classList.remove(activeClass);
 
       const href = link.getAttribute('href');
@@ -53,31 +50,6 @@ const { sideBarActiveItemID } = Astro.props;
     });
   }
 
-  // 1. CLICK HANDLER: THE "OPTIMISTIC UI" STRATEGY
-  document.addEventListener('DOMContentLoaded', () => {
-    // Select by class
-    const menu = document.querySelector('.sidebar-nav-list');
-    if (menu) {
-      menu.addEventListener('click', e => {
-        const target = e.target as HTMLElement;
-        const link = target.closest('a');
-        if (link && menu.contains(link)) {
-          e.preventDefault(); // Stop Astro/Browser from handling it yet
-          const href = link.getAttribute('href');
-          if (href) {
-            // 1. Optimistic UI Update (Instant)
-            updateActiveLink(href);
-
-            // 2. Trigger Navigation Manually
-            navigate(href);
-          }
-        }
-      });
-    }
-  });
-
-  // 2. Handle Back/Forward Button (State Correction)
-  document.addEventListener('astro:page-load', () => {
-    updateActiveLink(null);
-  });
+  // Update active link on every page load (including after View Transitions)
+  document.addEventListener('astro:page-load', updateActiveLink);
 </script>
