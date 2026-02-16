@@ -30,6 +30,23 @@ const API_HOST = import.meta.env.PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.co
           persistence: 'localStorage+cookie',
           loaded: ph => {
             if (import.meta.env.DEV) ph.debug();
+
+            // INTERNAL USER DETECTION:
+            // Visit your site with ?internal=true to mark yourself as internal
+            // This helps filter your own visits in PostHog analytics
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('internal') === 'true') {
+              localStorage.setItem('is_internal_user', 'true');
+              ph.identify('owner', { is_internal: true });
+              // Clean URL by removing the parameter
+              const cleanUrl = window.location.pathname + window.location.hash;
+              window.history.replaceState({}, document.title, cleanUrl);
+            }
+
+            // Check if already marked as internal
+            if (localStorage.getItem('is_internal_user') === 'true') {
+              ph.identify('owner', { is_internal: true });
+            }
           }
         });
       } catch (e) {
