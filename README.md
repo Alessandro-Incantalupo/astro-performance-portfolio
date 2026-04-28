@@ -1,65 +1,64 @@
-# Personal Portfolio Website
+# Angular Frontend Engineer — Personal Portfolio
 
-> **Modern Frontend Developer Portfolio** built with Astro 5, TypeScript, and TailwindCSS v4
+> Lighthouse 100/100 across Performance, Accessibility, Best Practices, and SEO. Built with Astro 5, TailwindCSS v4, and a 32-theme design system. Includes `/llms.txt` for AI agent discovery and PostHog analytics.
 
-A responsive, theme-customizable personal portfolio website showcasing my skills as an Angular Frontend Developer. Built with modern web technologies and best practices to demonstrate technical proficiency and attention to detail.
+## Live Site
 
-## 🌟 Live Demo
+[alessandroincantalupo.com](https://www.alessandroincantalupo.com/)
 
-Visit the live portfolio: https://www.alessandroincantalupo.com/
+## What It Does
 
-## 🎯 Project Purpose
+A personal portfolio site serving as a live performance benchmark. Every architectural choice is made to demonstrate what a frontend engineer who cares about production quality actually ships: Lighthouse 100/100, island architecture with minimal JS hydration, a 32-theme design system with `localStorage` persistence, and structured content managed via Astro Content Collections.
 
-This portfolio serves as a comprehensive showcase of my frontend development capabilities, featuring:
+## Why I Built It (And Why Astro, Not Angular)
 
-- **Technical Skills**: Angular, TypeScript, TailwindCSS, Astro
-- **Professional Experience**: Current role as Custom Software Engineering Analyst at Accenture
-- **Modern Web Standards**: Responsive design, accessibility, performance optimization - **LLM Friendly**: Optimized for AI discovery via `/llms.txt`
-- **Code Quality**: Clean architecture, component-based design, type safety
+Angular owns my production work — but it ships JavaScript. For a static portfolio I wanted zero framework overhead and a Lighthouse 100/100 I could prove with a link. Astro's island architecture lets me ship near-zero JS by default and opt into interactivity only where needed (the theme switcher). The result is a site that loads faster than any Angular SPA ever will, and demonstrates I understand when not to reach for Angular.
 
-## 🚀 Key Features
+## Stack & Architectural Decisions
 
-### 🎨 Dynamic Theme System
+| Technology | Purpose | Decision |
+|---|---|---|
+| **Astro 5** | Static site generator | Island architecture — JS ships only to interactive components, everything else is zero-JS HTML |
+| **TailwindCSS v4** | Styling | Vite-native CSS pipeline — no PostCSS overhead, faster builds |
+| **DaisyUI 5** | Component + theme library | 32 pre-built themes via CSS custom properties — design system switching at runtime via a single `data-theme` attribute |
+| **Astro Content Collections** | Data layer | Type-safe JSON content with Zod schema — CV data updated without touching component code |
+| **PostHog** | Analytics | Self-hostable, privacy-respecting pageview tracking |
+| **`/llms.txt`** | AI discoverability | Structured Markdown summary of skills/experience served to AI agents (ChatGPT, Perplexity, etc.) |
 
-- **32 Professional Themes**: Including corporate, dark, light, cyberpunk, and more (powered by DaisyUI 5)
-- **Real-time Theme Switching**: Instant preview with `localStorage` persistence and visual highlighting
-- **Theme Persistence**: User preferences saved across sessions
+**Why Content Collections over hardcoded data**: Work history, skills, and education live in `src/content/` as typed JSON. Adding a new job entry is a data change, not a code change. Same pattern scales to a CMS without touching any component.
 
-### 🤖 LLM Optimization
+**Why 32 themes**: DaisyUI's `data-theme` attribute system switches the entire design system at runtime via a single attribute on `<html>`. The implementation is ~40 lines of vanilla JS with `localStorage` persistence across sessions.
 
-- **AI-Ready**: Includes a [`/llms.txt`](/llms.txt) endpoint that serves a structured Markdown summary of my profile, skills, and experience for AI agents (ChatGPT, Perplexity, etc.).
+## Screenshot
 
-### 📱 Responsive Design
+<!-- Add a screenshot here: open the live site, enable Lighthouse 100 panel + theme switcher -->
+![Lighthouse 100/100 score and theme switcher](./docs/screenshot.png)
 
-- **Mobile-First Approach**: Optimized for all device sizes
-- **Adaptive Navigation**: Collapsible sidebar for mobile, fixed sidebar for desktop
-- **Touch-Friendly**: Optimized for mobile interactions
+## Getting Started
 
-### ⚡ Performance Optimized
+```bash
+git clone https://github.com/Alessandro-Incantalupo/astro-performance-portfolio
+pnpm install
+pnpm run dev      # http://localhost:4321
+pnpm run build
+pnpm run preview
+```
 
-- **Astro 5 Framework**: Static site generation with island architecture and Content Layer
-- **Optimized Images**: `astro:assets` for optimal format and sizing
-- **Fast Loading**: Minimal JavaScript, efficient CSS via Tailwind v4 (Vite)
+## What This Demonstrates
 
-### 🎯 Professional Sections
+| Skill | Where |
+|---|---|
+| Lighthouse 100/100 — Performance, Accessibility, Best Practices, SEO | Live: [alessandroincantalupo.com](https://www.alessandroincantalupo.com/) |
+| Astro 5 island architecture — minimal JS hydration | `src/components/ThemeSelector.astro` |
+| Content-driven architecture via Astro Content Collections | `src/content/`, `content.config.ts` |
+| TailwindCSS v4 — Vite-native CSS pipeline | `src/styles/global.css` |
+| 32-theme design system with `localStorage` persistence | `src/components/ThemeSelector.astro` |
+| `/llms.txt` endpoint — AI agent discoverability | `src/pages/llms.txt.ts` |
+| PostHog analytics integration | `src/components/BaseHead.astro` |
+| TypeScript + Zod schema validation on content | `content.config.ts` |
+| SEO — OpenGraph, Twitter Cards, robots.txt, sitemap | `src/components/BaseHead.astro` |
 
-- **Home**: Introduction and key highlights
-- **CV/Resume**: Detailed experience, education, and skills (Data-driven via Content Collections)
-- **Contacts**: Professional contact information
-- **404 Page**: Custom error handling
-
-## 🛠️ Technical Stack
-
-| Technology      | Purpose               | Version  |
-| --------------- | --------------------- | -------- |
-| **Astro**       | Static Site Generator | ^5.16.15 |
-| **TypeScript**  | Type Safety           | ^5.9.3   |
-| **TailwindCSS** | Styling Framework     | ^4.1.18  |
-| **DaisyUI**     | Component Library     | ^5.5.14  |
-| **Node.js**     | Runtime               | v24.13.0 |
-| **pnpm**        | Package Manager       | v10.28.2 |
-
-## 📁 Project Architecture
+## Project Architecture
 
 ```
 src/
@@ -87,95 +86,19 @@ src/
 └── content.config.ts     # Content Collections schema definition
 ```
 
-## 🎨 Theme System Implementation
+## Technical Stack
 
-The theme system uses Tailwind v4 and DaisyUI 5, with custom logic for persistence:
+| Technology      | Purpose               | Version  |
+| --------------- | --------------------- | -------- |
+| **Astro**       | Static Site Generator | ^5.16.15 |
+| **TypeScript**  | Type Safety           | ^5.9.3   |
+| **TailwindCSS** | Styling Framework     | ^4.1.18  |
+| **DaisyUI**     | Component Library     | ^5.5.14  |
+| **Node.js**     | Runtime               | v24.13.0 |
+| **pnpm**        | Package Manager       | v10.28.2 |
 
-```typescript
-// ThemeSelector.astro
-// Visual state management for 30+ themes
-const updateVisualState = () => {
-  const theme = localStorage.getItem('data-theme') || 'lofi';
-  // ... applies active border styles dynamically
-};
-```
-
-## 💼 Content Management
-
-All professional content is managed via **Astro Content Collections** in `src/content/`, ensuring type safety and easy updates without touching code.
-
-Example `src/content/experience/accenture.json`:
-
-```json
-{
-  "title": "Custom Software Engineering Analyst",
-  "subtitle": "Sep 2023 - Present | Accenture (Remote)",
-  "description": "Contributing to a national-scale Angular 17+ project..."
-}
-```
-
-## 🔧 Development Features
-
-### Component Architecture
-
-- **Astro Components**: Server-side rendering with minimal client JavaScript
-- **TypeScript Integration**: Full type safety across the application
-- **Modular Design**: Reusable, maintainable component structure
-
-### SEO & Accessibility
-
-- **Meta Tags**: Complete OpenGraph and Twitter Card support
-- **Semantic HTML**: Proper heading hierarchy and ARIA labels
-- **Responsive Images**: Optimized for all screen sizes
-- **Robots.txt**: Configured for modern indexing
-
-## 🚀 Getting Started
-
-This project uses **Volta** to pin Node.js and pnpm versions automatically.
-
-```bash
-# Clone the repository
-git clone https://github.com/Alessandro-Incantalupo/astro-personal-website
-
-# Install dependencies (pnpm is enforced)
-pnpm install
-
-# Start development server
-pnpm run dev
-
-# Build for production
-pnpm run build
-
-# Preview production build
-pnpm run preview
-```
-
-## 🎯 Skills Demonstrated
-
-### Frontend Development
-
-- ✅ **Modern Frameworks**: Astro 5, Angular ecosystem expertise
-- ✅ **Styling**: TailwindCSS v4, DaisyUI 5
-- ✅ **TypeScript**: Advanced type safety and Zod schemas
-- ✅ **Performance**: Asset optimization, Island architecture
-
-### Software Engineering
-
-- ✅ **Architecture**: Content-driven architecture (Headless-like)
-- ✅ **Code Quality**: Clean, maintainable code with Prettier
-- ✅ **Version Control**: Git best practices
-- ✅ **Tooling**: Volta for reproducible environments
-
-## 🔗 Connect With Me
+## Connect
 
 - **Email**: [alessandro.incantalupo@gmail.com](mailto:alessandro.incantalupo@gmail.com)
 - **LinkedIn**: [Alessandro Incantalupo](https://www.linkedin.com/in/alessandro-incantalupo/)
 - **GitHub**: [Alessandro-Incantalupo](https://github.com/Alessandro-Incantalupo)
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-_Built with ❤️ by Alessandro Incantalupo | Frontend Developer_
