@@ -1,9 +1,12 @@
 {
-  "title": "Senior Angular Developer",
-  "subtitle": "Nov 2025 – Present | AI Software Solutions",
+  "title": "Angular Front-end Developer",
+  "subtitle": "Nov 2025 – Present | Exprivia",
   "startDate": "2025-11-01",
   "description": [
-    "Providing <b>high-level architectural consultancy</b> and development services for enterprise clients.",
-    "Specializing in modern Angular application scaling, <b>performance optimization</b>, and <b>team mentorship</b>."
+    "Drove team-wide adoption of <b>best architectural practices</b>, <b>compressing feature delivery cycles</b> by <b>eliminating the code review friction</b> that was consistently degrading developer output.",
+    "Migrated key applications to <b>Angular Signals with Zoneless configuration</b>, eliminating <b>90% of redundant change detection cycles</b> and delivering <b>measurably smoother UIs</b> on data-intensive views.",
+    "<b>Optimized rendering performance</b> by migrating components to the OnPush change detection strategy, noticeably <b>improving UI responsiveness</b> for data-heavy views.",
+    "Architected and enforced <b>performant application patterns</b> that ensured stable performance under extended user sessions, <b>eliminating systemic CPU degradation</b> before it could reach production.",
+    "Mentored junior developers through pair programming and structured knowledge transfer sessions, <b>accelerating onboarding</b> and <b>raising the team's baseline proficiency</b> without sacrificing delivery pace."
   ]
 }

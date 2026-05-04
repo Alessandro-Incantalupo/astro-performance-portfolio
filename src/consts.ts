@@ -1,11 +1,11 @@
 // Place any global data in this file.
 // You can import this data from anywhere in your site by using the `import` keyword.
 
-export const SITE_TITLE = 'Alessandro Incantalupo | Senior Angular Developer & Architect';
+export const SITE_TITLE = 'Alessandro Incantalupo | Frontend Engineer — Angular/TypeScript';
 export const SITE_CREATOR = 'Alessandro Incantalupo';
 export const GITHUB_URL = 'https://github.com/Alessandro-Incantalupo';
 export const SITE_DESCRIPTION =
-  'Alessandro Incantalupo is a Senior Angular Developer and System Architect specializing in high-performance enterprise applications, legacy system migrations (Angular 17-21), and scalable frontend infrastructure. Expert in Zoneless architecture, Signals, and LLM-ready tooling.';
+  'Alessandro Incantalupo is a Frontend Engineer specializing in modern enterprise Angular applications (Angular 17–21), with production experience across Fintech, Healthcare, and E-commerce. Expert in Angular Signals, Zoneless architecture, NgRx Signal Store, and scalable frontend infrastructure.';
 export const GENERATE_SLUG_FROM_TITLE = true;
 export const TRANSITION_API = true;
 export const NAV_ITEMS = [

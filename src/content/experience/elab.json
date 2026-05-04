@@ -1,13 +1,12 @@
 {
-  "title": "Angular Developer",
+  "title": "Angular Front-end Developer",
   "subtitle": "Sep 2022 – Aug 2023 | ELAB (A.S. Watson Group)",
   "startDate": "2022-09-01",
   "description": [
-    "Developed <b>3+ live Angular applications</b> for <b>major retail brands</b> (Marionnaud, ICI Paris, Kruidvat), enhancing engagement on both web and mobile platforms.",
-    "Architected <b>Service-Oriented layers</b> for REST API integration, coupling reactive forms with data-driven UI flows for optimal responsiveness.",
-    "Executed <b>rigorous unit and integration testing</b> protocols, ensuring high system stability and minimizing production regressions.",
-    "Collaborated closely with UI/UX designers to translate design specs into <b>accessible (WCAG compliant) components</b>.",
-    "Active participant in <b>Agile ceremonies</b> (grooming, stand-ups, retrospectives), consistently delivering features with a <b>pragmatic, problem-solving mindset</b>.",
-    "Led <b>code review sessions</b> to enforce <b>component design standards</b> and improve maintainability across the codebase."
+    "<b>Worked on 3+ live e-commerce storefronts</b> for international retail brands (<b>Marionnaud, ICI Paris, Kruidvat</b>) under the <b>A.S. Watson Group</b>, directly supporting multi-market online retail operations on enterprise e-commerce infrastructure.",
+    "Delivered frictionless checkout, cart, and authentication experiences for <b>millions of shoppers</b> across all storefronts, leveraging <b>REST API</b> integration to enable <b>real-time order processing</b> and <b>session management</b>.",
+    "Achieved <b>zero critical production incidents</b> in checkout and cart flows by aligning frontend form models with backend API contracts upfront, eliminating malformed requests and edge-case failures before each release.",
+    "<b>Reduced post-release UI defect tickets to near zero</b> through structured QA collaboration and tight designer review cycles, achieving <b>first-delivery acceptance</b> across <b>12+ consecutive sprint cycles</b>.",
+    "<b>Accelerated team delivery velocity</b> by standardizing component patterns through rigorous code reviews, <b>cutting onboarding time</b> for new developers and eliminating inconsistent implementations."
   ]
 }

@@ -1,13 +1,13 @@
 {
-  "title": "Angular Developer",
-  "subtitle": "Sep 2023 – Oct 2025 | Accenture",
+  "title": "Angular Front-end Developer",
+  "subtitle": "Sep 2023 – Nov 2025 | Accenture",
   "startDate": "2023-09-01",
   "description": [
-    "Implemented <b>NgRx Signal Store</b> for centralized state management, enabling frontend team to <b>deliver state-related features 60% faster</b>.",
-    "Pioneered <b>Zoneless Angular architecture</b> with Signals, <b>reducing change detection triggers by 90%</b> via fine-grained dependency tracking.",
-    "Established <b>Figma-to-code workflow</b> using TailwindCSS design tokens and PrimeNG, achieving <b>95% first-delivery acceptance</b> on UI implementations.",
-    "Standardized <b>Git operations and conventional commit practices</b>, virtually eliminating clearable merge conflicts and streamlining code reviews.",
-    "Engineered Azure DevOps CI/CD pipelines enabling <b>daily zero-downtime production releases</b> with automated rollback capabilities.",
-    "Streamlined Backend/Frontend collaboration by defining <b>strict REST API contracts</b>, significantly <b>reducing integration friction</b> and handover delays."
+    "<b>Worked on 4+ live Angular 17–20 applications in both Healthcare and Fintech.</b>",
+    "Implemented <b>NgRx Signal Store</b> for <b>centralized state management</b>, enabling the team to deliver state-related features <b>60% faster</b>.",
+    "Established <b>Figma-to-code workflow</b> using <b>TailwindCSS design tokens</b> and <b>PrimeNG component library</b>, achieving <b>responsive web design</b> and <b>intuitive UI/UX interfaces</b> with <b>95% first-delivery acceptance rate</b> and <b>WCAG 2.1</b> compliance.",
+    "Standardized <b>Git workflow</b> and <b>conventional commit practices</b> across the team, eliminating merge conflict overhead and creating a <b>predictable release cadence</b> that reduced time lost to integration issues.",
+    "Deployed <b>Azure DevOps CI/CD infrastructure</b> enabling <b>daily production releases</b> with <b>full rollback capabilities</b>, <b>zero service interruption</b>, and reducing deployment risk to near zero.",
+    "Drove API-first collaboration with <b>backend</b> developers by establishing shared <b>REST API</b> contracts upfront, <b>cutting integration rework cycles</b> and <b>enabling parallel frontend-backend development without blocking dependencies</b>."
   ]
 }
