@@ -13,7 +13,8 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
   <!-- Global Metadata -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!--<meta name="viewport" content="width=device-width,initial-scale=1"/>-->
+  <!-- Warm up Cal.com connection without downloading anything or setting cookies -->
+  <link rel="preconnect" href="https://app.cal.com" crossorigin />
   <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -180,6 +181,173 @@ const { title, description, image = '/social_img.webp', ogType = 'website' } = A
         const unlock = disableTransitions(); // Lock transitions
         setTheme(document); // Force apply correct theme
         unlock(); // Unlock transitions
+      });
+    })();
+  </script>
+  <!--
+    Cal.com — lazy-load to keep Lighthouse Best Practices at 100.
+
+    WHY NOT just <script src="embed.js">:
+    - Cal.com sets 5 third-party cookies the moment embed.js runs (next-auth tokens, cf_bm, uid).
+    - Lighthouse flags those cookies.
+    - Lighthouse never hovers/taps anything, so lazy-loading keeps cookies off the audit entirely.
+
+    WHY is:inline (not a normal Astro <script>):
+    - Astro wraps scripts as type="module" and defers them → they run after hydration.
+    - By then the user could already hover before our listeners exist. is:inline runs in <head>, synchronously.
+
+    WHY preconnect above:
+    - Warms DNS + TCP + TLS to app.cal.com at page load for free (no download, no cookies).
+    - So when embed.js IS requested on hover, the connection is already open (~100-300ms saved).
+  -->
+  <script is:inline>
+    (function () {
+      // ── State flags ───────────────────────────────────────────────────────────
+      // calLoaded: true once we've injected the <script> tag — prevents double-loading
+      //            even if the user hovers rapidly before the first load finishes.
+      // calReady:  true once embed.js has fully executed (onload fired).
+      //            Only at this point does Cal's internal event delegation become live.
+      let calLoaded = false;
+      let calReady = false;
+
+      // ── initCal() ─────────────────────────────────────────────────────────────
+      // Idempotent: first call injects embed.js and configures the namespace;
+      // subsequent calls are no-ops thanks to the calLoaded guard.
+      function initCal() {
+        if (calLoaded) return;
+        calLoaded = true;
+
+        // This IIFE is Cal.com's own snippet, copied verbatim from their docs.
+        // It creates window.Cal as a command-queue stub so that Cal('init', …) and
+        // Cal.ns['default']('ui', …) calls below are safe to make before embed.js
+        // has finished downloading — they get queued and replayed once it loads.
+        (function (C, A, L) {
+          const p = function (a, ar) {
+            a.q.push(ar);
+          };
+          C.Cal =
+            C.Cal ||
+            function () {
+              const cal = C.Cal,
+                ar = arguments;
+              if (!cal.loaded) {
+                cal.ns = {};
+                cal.q = cal.q || [];
+                // Dynamically inject embed.js — this is the moment the script
+                // actually starts downloading (only happens on first user intent).
+                const s = C.document.createElement('script');
+                s.src = A;
+                // Set calReady when download + execution is complete.
+                s.onload = function () {
+                  calReady = true;
+                };
+                C.document.head.appendChild(s);
+                cal.loaded = true;
+              }
+              // 'init' calls set up a named namespace (e.g. 'default') with its
+              // own command queue so multiple embed configs can coexist on a page.
+              if (ar[0] === L) {
+                const api = function () {
+                  p(api, arguments);
+                };
+                const ns = ar[1];
+                api.q = api.q || [];
+                if (typeof ns === 'string') {
+                  cal.ns[ns] = cal.ns[ns] || api;
+                  p(cal.ns[ns], ar);
+                  p(cal, [L, ns, ar[2]]);
+                } else {
+                  p(cal, ar);
+                  p(cal, [L]);
+                }
+                return;
+              }
+              p(cal, ar);
+            };
+        })(window, 'https://app.cal.com/embed/embed.js', 'init');
+
+        // ── 15-min meeting namespace ──────────────────────────────────────────────
+        // All booking buttons point to 'alessandro-i/15min', so this is the only
+        // namespace needed. Any element with data-cal-link="alessandro-i/15min" triggers it.
+        Cal('init', '15min', { origin: 'https://cal.com' });
+        Cal.ns['15min']('ui', {
+          theme: 'dark',
+          hideEventTypeDetails: false,
+          layout: 'month_view',
+          useSlotsViewOnSmallScreen: true
+        });
+
+        // Tag the PostHog event with eventType so you can distinguish 15-min bookings
+        // from default bookings in your analytics dashboards.
+        Cal.ns['15min']('on', {
+          action: 'bookingSuccessfulV2',
+          callback: function (e) {
+            window.posthog?.capture('cal_booking_success', {
+              ...e.detail?.data,
+              eventType: '15min'
+            });
+          }
+        });
+      }
+
+      // ── Intent listeners (event delegation on document) ───────────────────────
+      // We listen on document rather than individual buttons so this works for any
+      // [data-cal-link] element added dynamically (e.g. after View Transitions).
+
+      // Desktop: mouseover fires ~200ms before click — enough time for embed.js
+      // to download on a normal connection before the user actually clicks.
+      document.addEventListener(
+        'mouseover',
+        function (e) {
+          if (e.target.closest('[data-cal-link]')) initCal();
+        },
+        { passive: true }
+      ); // passive: true = never calls preventDefault → no scroll jank
+
+      // Mobile: touchstart fires before the synthetic click event, same idea.
+      document.addEventListener(
+        'touchstart',
+        function (e) {
+          if (e.target.closest('[data-cal-link]')) initCal();
+        },
+        { passive: true }
+      );
+
+      // ── Click fallback (slow network edge case) ───────────────────────────────
+      // On a very slow connection the user might click before embed.js has finished
+      // loading. In that case Cal's own click handler isn't live yet, so we:
+      //   1. Prevent the default click (nothing to do yet).
+      //   2. Poll every 100ms (max 6s / 60 ticks) until calReady is true.
+      //   3. Directly invoke Cal's modal API — same thing Cal's click handler does.
+      // If calReady is already true when the click fires, we do nothing — Cal's
+      // internal event delegation on [data-cal-link] takes over naturally.
+      document.addEventListener('click', function (e) {
+        const btn = e.target.closest('[data-cal-link]');
+        if (!btn) return;
+        initCal(); // ensure loading has started (covers instant-click on mobile)
+        if (calReady) return; // Cal handles it — hands off
+        e.preventDefault();
+        // Capture button attributes now, before the async wait, in case the
+        // element is replaced by a View Transition before the interval fires.
+        var calLink = btn.dataset.calLink;
+        var calCfg = {};
+        try {
+          calCfg = JSON.parse(btn.dataset.calConfig || '{}');
+        } catch (ex) {}
+        var calOrigin = btn.dataset.calOrigin || '';
+        let t = 0;
+        const wait = setInterval(function () {
+          if (calReady || t++ > 60) {
+            // 60 × 100ms = 6 second timeout
+            clearInterval(wait);
+            // Call Cal's modal API directly — this is exactly what Cal's own
+            // document click handler does internally. More reliable than
+            // re-dispatching a synthetic click event through multiple handlers.
+            if (calReady)
+              Cal.ns['15min']('modal', { calLink: calLink, config: calCfg, calOrigin: calOrigin });
+            // If timeout hit without calReady, silently give up — user can retry.
+          }
+        }, 100);
       });
     })();
   </script>

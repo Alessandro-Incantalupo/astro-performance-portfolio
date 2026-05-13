@@ -2,7 +2,7 @@
   "greeting": "Hello there 👋",
   "intro": "I'm",
   "role": "Frontend Engineer — Angular/TypeScript",
-  "description": "I'm a Frontend Engineer specializing in modern enterprise Angular applications (Angular 17–21) across Fintech, Healthcare, and E-commerce.\nI work with Angular Signals, Zoneless architecture, NgRx Signal Store, and TailwindCSS to build scalable, high-performance UIs.\nBeyond work, I explore static site generation with Astro and build AI-first tooling to sharpen developer workflows.\nAvailable for remote roles (EU/UK/Global) where I can drive technical quality and delivery velocity.",
+  "description": "I'm a Frontend Engineer specializing in modern enterprise Angular applications (Angular 17–21) across Fintech, Healthcare, and E-commerce.\nI work with Angular Signals, Zoneless architecture, NgRx Signal Store, and TailwindCSS to build scalable, high-performance UIs.\nBeyond work, I explore static site generation with Astro and build AI-first tooling to sharpen developer workflows.\nAvailable for remote roles (EU/UK/Global) where I can drive technical quality and delivery speed.",
   "connect": "Let's connect!",
   "message": "Send me a message"
 }

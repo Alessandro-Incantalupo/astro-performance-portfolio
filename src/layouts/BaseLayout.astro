@@ -16,7 +16,8 @@ const {
   description = SITE_DESCRIPTION,
   includeSidebar = true,
   sideBarActiveItemID,
-  ogType
+  ogType,
+  showCalSticky = true
 } = Astro.props;
 ---
 
@@ -41,6 +42,38 @@ const {
       </div>
       {includeSidebar && <SideBar sideBarActiveItemID={sideBarActiveItemID} />}
     </div>
+    {
+      showCalSticky && (
+        <>
+          <button
+            id="cal-sticky-btn"
+            data-cal-link="alessandro-i/15min"
+            data-cal-namespace="15min"
+            data-cal-config='{"layout":"month_view"}'
+            class="hidden sm:flex fixed bottom-6 right-6 z-50 btn btn-primary shadow-lg gap-2"
+            aria-label="Book a call"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
+            </svg>
+            <span>Book a call</span>
+          </button>
+        </>
+      )
+    }
     <CookieBanner />
   </body>
 </html>

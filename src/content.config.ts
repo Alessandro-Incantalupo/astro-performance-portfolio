@@ -63,6 +63,19 @@ const ui = defineCollection({
   })
 });
 
+const contacts = defineCollection({
+  loader: glob({ pattern: '**/*.json', base: './src/content/contacts' }),
+  schema: z.object({
+    emailHeading: z.string(),
+    emailSubtitle: z.string(),
+    email: z.string(),
+    callHeading: z.string(),
+    callSubtitle: z.string(),
+    callBtn: z.string(),
+    calUsername: z.string()
+  })
+});
+
 export const collections = {
   experience,
   education,
@@ -71,5 +84,6 @@ export const collections = {
   profile,
   learning,
   home,
-  ui
+  ui,
+  contacts
 };
