@@ -1,69 +1,83 @@
 <script is:inline>
-  !(function (t, e) {
-    var o, n, p, r;
-    e.__SV ||
-      ((window.posthog = e),
-      (e._i = []),
-      (e.init = function (i, s, a) {
-        function g(t, e) {
-          var o = e.split('.');
-          (2 == o.length && ((t = t[o[0]]), (e = o[1])),
-            (t[e] = function () {
-              t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
-            }));
-        }
-        (((p = t.createElement('script')).type = 'text/javascript'),
-          (p.async = !0),
-          (p.src =
-            s.api_host.replace('.i.posthog.com', '-assets.i.posthog.com') + '/static/array.js'),
-          (r = t.getElementsByTagName('script')[0]).parentNode.insertBefore(p, r));
-        var u = e;
-        for (
-          void 0 !== a ? (u = e[a] = []) : (a = 'posthog'),
-            u.people = u.people || [],
-            u.toString = function (t) {
-              var e = 'posthog';
-              return ('posthog' !== a && (e += '.' + a), t || (e += ' (stub)'), e);
-            },
-            u.people.toString = function () {
-              return u.toString(1) + '.people (stub)';
-            },
-            o =
-              'init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep'.split(
-                ' '
-              ),
-            n = 0;
-          n < o.length;
-          n++
-        )
-          g(u, o[n]);
-        e._i.push([i, s, a]);
-      }),
-      (e.__SV = 1));
-  })(document, window.posthog || []);
+  (function () {
+    var phLoaded = false;
 
-  // Initialize with config
-  // Use full URL in development, proxy in production
-  const isLocalDev =
-    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-  posthog.init('phc_3xYWyQ74gLFrcAmphLArDKX8ogrOxaduHj5f2BbvKOE', {
-    api_host: isLocalDev ? 'https://us.i.posthog.com' : '/ingest', // Proxy through Netlify in production
-    ui_host: 'https://us.posthog.com',
-    person_profiles: 'identified_only',
-    capture_pageview: false // We handle this manually for View Transitions
-  });
+    function initPostHog() {
+      if (phLoaded) return;
+      phLoaded = true;
 
-  // Handle View Transitions and initial load
-  document.addEventListener('astro:page-load', () => {
-    if (window['posthog']) {
-      window['posthog'].capture('$pageview');
+      !(function (t, e) {
+        var o, n, p, r;
+        e.__SV ||
+          ((window.posthog = e),
+          (e._i = []),
+          (e.init = function (i, s, a) {
+            function g(t, e) {
+              var o = e.split('.');
+              (2 == o.length && ((t = t[o[0]]), (e = o[1])),
+                (t[e] = function () {
+                  t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+                }));
+            }
+            (((p = t.createElement('script')).type = 'text/javascript'),
+              (p.async = !0),
+              (p.src =
+                s.api_host.replace('.i.posthog.com', '-assets.i.posthog.com') + '/static/array.js'),
+              (r = t.getElementsByTagName('script')[0]).parentNode.insertBefore(p, r));
+            var u = e;
+            for (
+              void 0 !== a ? (u = e[a] = []) : (a = 'posthog'),
+                u.people = u.people || [],
+                u.toString = function (t) {
+                  var e = 'posthog';
+                  return ('posthog' !== a && (e += '.' + a), t || (e += ' (stub)'), e);
+                },
+                u.people.toString = function () {
+                  return u.toString(1) + '.people (stub)';
+                },
+                o =
+                  'init capture register register_once register_for_session unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group identify setPersonProperties setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags resetGroups onFeatureFlags addFeatureFlagsHandler onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep'.split(
+                    ' '
+                  ),
+                n = 0;
+              n < o.length;
+              n++
+            )
+              g(u, o[n]);
+            e._i.push([i, s, a]);
+          }),
+          (e.__SV = 1));
+      })(document, window.posthog || []);
+
+      var isLocalDev =
+        window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      posthog.init('phc_3xYWyQ74gLFrcAmphLArDKX8ogrOxaduHj5f2BbvKOE', {
+        api_host: isLocalDev ? 'https://us.i.posthog.com' : '/ingest',
+        ui_host: 'https://us.posthog.com',
+        person_profiles: 'identified_only',
+        capture_pageview: false
+      });
+
+      // Capture the pageview that fired before PostHog was ready
+      posthog.capture('$pageview');
     }
-  });
 
-  // Handle cookie consent
-  window.addEventListener('cookie-consent-granted', () => {
-    if (window['posthog']) {
-      window['posthog'].opt_in_capturing();
-    }
-  });
+    // Defer until the main thread is idle — after paint, after LCP, after TBT window
+    (
+      window.requestIdleCallback ||
+      function (cb) {
+        setTimeout(cb, 200);
+      }
+    )(initPostHog);
+
+    // Subsequent View Transition pageviews (PostHog will be loaded by then)
+    document.addEventListener('astro:page-load', function () {
+      if (window.posthog) window.posthog.capture('$pageview');
+    });
+
+    // Cookie consent
+    window.addEventListener('cookie-consent-granted', function () {
+      if (window.posthog) window.posthog.opt_in_capturing();
+    });
+  })();
 </script>

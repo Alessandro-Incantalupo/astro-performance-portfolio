@@ -80,8 +80,6 @@
 </div>
 
 <script>
-  import confetti from 'canvas-confetti';
-
   function animateScores() {
     const gauges = document.querySelectorAll('.radial-progress');
     let completed = 0;
@@ -120,30 +118,32 @@
   }
 
   function triggerConfetti() {
-    const duration = 2000;
-    const end = Date.now() + duration;
+    import('canvas-confetti').then(({ default: confetti }) => {
+      const duration = 2000;
+      const end = Date.now() + duration;
 
-    (function frame() {
-      // Launch confetti from left and right edges bottom
-      confetti({
-        particleCount: 3,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0, y: 0.9 },
-        colors: ['#00a96e', '#ffeb3b', '#ff5722']
-      });
-      confetti({
-        particleCount: 3,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1, y: 0.9 },
-        colors: ['#00a96e', '#ffeb3b', '#ff5722']
-      });
+      (function frame() {
+        // Launch confetti from left and right edges bottom
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.9 },
+          colors: ['#00a96e', '#ffeb3b', '#ff5722']
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.9 },
+          colors: ['#00a96e', '#ffeb3b', '#ff5722']
+        });
 
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    })();
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
+    });
   }
 
   // Run on View Transitions (Astro 3.0+)
